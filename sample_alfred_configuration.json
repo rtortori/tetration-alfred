@@ -1,0 +1,11 @@
+{
+  "apic_data_file" : "apic_data.json",
+  "brokers_file" : "brokers_list.txt",
+  "topic" : "tetration_aci",
+  "consumer_group" : "tetration",
+  "annotation_csv_file" : "annotations.csv",
+  "VRF" : "tetration_target_vrf_here",
+  "app_scope" : "tetration_target_application_scope_here",
+  "API_ENDPOINT" : "tetration_endpoint_here",
+  "CREDENTIALS_FILE" : "tetration_credential_file_here"
+}
