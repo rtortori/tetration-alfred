@@ -1,7 +1,8 @@
 # Required modules
-from kafka import KafkaConsumer
 import json
 import time
+
+from kafka import KafkaConsumer
 
 # Import alfred utils
 import alfred_utils
@@ -105,15 +106,15 @@ while True:
 
                         # Write CSV file
                         alfred_utils.create_annotation(annotation_csv_file,
-                                          item,
-                                          VRF,
-                                          _Tenant,
-                                          _Application,
-                                          _EPG,
-                                          _Encapsulation,
-                                          _Leaf_ID,
-                                          _Learning_Source,
-                                          _ACI_Info_Date)
+                                                       item,
+                                                       VRF,
+                                                       _Tenant,
+                                                       _Application,
+                                                       _EPG,
+                                                       _Encapsulation,
+                                                       _Leaf_ID,
+                                                       _Learning_Source,
+                                                       _ACI_Info_Date)
 
                         # Push Annotation to Tetration
                         alfred_utils.tet_annotate('add', API_ENDPOINT, CREDENTIALS_FILE, annotation_csv_file, app_scope)
