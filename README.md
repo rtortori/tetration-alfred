@@ -109,8 +109,9 @@ one Kafka broker though Tetration will send data to a single data taps
 - Rename the sample_apic_data.json file and fill in with your APIC specific configuration
 <br>
 - Within tetration_alfred.py you can toggle debug mode on/off (default is*on*)<br>
+
 ```
-debug_mode = True # False will turn debug off
+debug_mode = True
 ```
 
 ### Running the application
