@@ -60,7 +60,7 @@ User Annotations API.<br>
 
 ## Road-map (not committed)
 Since the ACI annotation engine is triggered using a specific query in the question, further actions can be implemented 
-by implementing new queries.<br><br>
+by adding new queries.<br><br>
 Plan is to extend annotation support for data fetched from:
 - Cisco AppDynamics
 - Cisco Stealthwatch
