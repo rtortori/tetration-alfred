@@ -101,7 +101,7 @@ Save the resulting JSON file under the same directory of tetration_alfred.py
 ### Configuration steps
 - By default Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
 A sample configuration file has been provided: *sample_alfred_configuration.json*. <br>
-Feel free to rename it accordingly, edit it and put your configuration data
+Rename it accordingly, edit and put your configuration data
 <br>
 
 - Rename the sample_broker.txt file and specify your target Kafka brokers. You can specify more than
