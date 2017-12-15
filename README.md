@@ -104,9 +104,7 @@ A sample configuration file has been provided: *sample_alfred_configuration.json
 Rename it to alfred_configuration.json, edit and put your configuration data
 2. Rename the sample_broker.txt file and specify your target Kafka brokers. You can specify more than
 one Kafka broker though Tetration will send data to a single data taps
-<br>
 3. Rename the sample_apic_data.json file and fill in with your APIC specific configuration
-<br>
 4. Within tetration_alfred.py you can toggle debug mode on/off (default is*on*)<br>
 
 ```
