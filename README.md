@@ -99,19 +99,16 @@ Save the resulting JSON file under the same directory of tetration_alfred.py
 
 ## Alfred usage
 ### Configuration steps
-- By default Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
+1. By default Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
 A sample configuration file has been provided: *sample_alfred_configuration.json*. <br>
-Rename it accordingly, edit and put your configuration data
+Rename it to alfred_configuration.json, edit and put your configuration data
 <br>
-
-- Rename the sample_broker.txt file and specify your target Kafka brokers. You can specify more than
+2. Rename the sample_broker.txt file and specify your target Kafka brokers. You can specify more than
 one Kafka broker though Tetration will send data to a single data taps
 <br>
-
-- Rename the sample_apic_data.json file and fill in with your APIC specific configuration
+3. Rename the sample_apic_data.json file and fill in with your APIC specific configuration
 <br>
-
-- Within tetration_alfred.py you can toggle debug mode on/off (default is*on*)<br>
+4. Within tetration_alfred.py you can toggle debug mode on/off (default is*on*)<br>
 
 ```
 debug_mode = True
