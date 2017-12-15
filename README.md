@@ -58,6 +58,14 @@ Cisco APIC controller.<br>
 The response will be parsed and packaged as a CSV file that will be pushed back to Tetration through
 User Annotations API.<br>
 
+## Road-map (not committed)
+Since the ACI annotation engine is triggered using a specific query in the question, further actions can be implemented 
+by implementing new queries.<br><br>
+Plan is to extend annotation support for data fetched from:
+- Cisco AppDynamics
+- Cisco Stealthwatch
+- Cisco Workload Optimization Manager (CWOM)
+
 
 ## Requirements<br>
 - Cisco Tetration Analytics cluster
