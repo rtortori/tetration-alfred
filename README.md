@@ -35,7 +35,7 @@ Alfred will annotate assets like this:
 | IP       | ACI Info Date        | Application   | EPG     | Encapsulation | Leaf ID | Learning Source | Tenant    | VRF   |
 |----------|----------------------|---------------|---------|---------------|---------|-----------------|-----------|-------|
 | 10.1.1.1 | 14-Dec-2017-18:27:44 | Tetration_Lab | Default | vlan-201      | 202     | learned-vmm     | Tetration | MyLab |
-| 10.1.1.1 | 14-Dec-2017-18:27:44 | My_app        | Test    | vlan-100      | 201     | learned-vmm     | Tetration | MyVRF |
+| 10.1.1.2 | 14-Dec-2017-18:27:44 | My_app        | Test    | vlan-100      | 201     | learned-vmm     | Tetration | MyVRF |
 | 10.1.1.3 | 14-Dec-2017-18:27:44 | Your_app      | Prod    | vlan-123      | 201     | learned-vmm     | Tetration | Apps  |
 
 
