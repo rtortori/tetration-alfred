@@ -103,11 +103,14 @@ Save the resulting JSON file under the same directory of tetration_alfred.py
 A sample configuration file has been provided: *sample_alfred_configuration.json*. <br>
 Feel free to rename it accordingly, edit it and put your configuration data
 <br>
+
 - Rename the sample_broker.txt file and specify your target Kafka brokers. You can specify more than
 one Kafka broker though Tetration will send data to a single data taps
 <br>
+
 - Rename the sample_apic_data.json file and fill in with your APIC specific configuration
 <br>
+
 - Within tetration_alfred.py you can toggle debug mode on/off (default is*on*)<br>
 
 ```
