@@ -91,8 +91,8 @@ Save the resulting JSON file under the same directory of tetration_alfred.py
 
 ## Alfred usage
 ### Configuration steps
-- By default Alfred pulls the configuration from a file called*alfred_configuration.json*<br>
-A sample configuration file has been provided:*sample_alfred_configuration.json*. <br>
+- By default Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
+A sample configuration file has been provided: *sample_alfred_configuration.json*. <br>
 Feel free to rename it accordingly, edit it and put your configuration data
 <br>
 - Rename the sample_broker.txt file and specify your target Kafka brokers. You can specify more than
@@ -126,7 +126,7 @@ After you've opened the User App in Tetration, you can configure it in the 1st J
 <br>
 Current implementation supports the following parameters:<br>
 - data_tap
-    - The target data tap name. It***MUST***match the name that has been configured under
+    - The target data tap name. It **MUST** match the name that has been configured under
     "Datataps" on Tetration
 - topic
     - The topic name
