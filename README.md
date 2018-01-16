@@ -58,6 +58,9 @@ Cisco APIC controller.<br>
 The response will be parsed and packaged as a CSV file that will be pushed back to Tetration through
 User Annotations API.<br>
 
+## Work in progress :)
+- Forward Tetration alarms to mail recipient
+
 ## Road-map (not committed)
 Since the ACI annotation engine is triggered using a specific query in the question, further actions can be implemented 
 by adding new queries.<br><br>
