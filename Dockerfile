@@ -1,5 +1,5 @@
 # Use a lightweight base image
-FROM frolvlad/alpine-python3
+FROM rtortori/alpine-python3
 
 # Set the working directory to /app
 WORKDIR /tetration-alfred
