@@ -165,11 +165,10 @@ in the Tetration User App** <br>
 <br>
 The following configuration example will make Tetration look for endpoints in the inventory for the last 
 hour which IP starts with 10.1. <br>
-It will then drop the JSON question to Kafka topic "tetration", using Data Tap "Kafka-DT"<br><br>
+It will then drop the JSON question to the target Datatap "Kafka-DT"<br><br>
 
 ```
 data_tap = 'Kafka-DT'
-topic = 'tetration'
 ip_subnet_prefix = '10.1'
 ```
 <br>
