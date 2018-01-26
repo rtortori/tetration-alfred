@@ -142,8 +142,8 @@ Current implementation supports the following parameters:<br>
 - ip_subnet_prefix
     - Prefix of the IPs that Tetration will look for in the inventory
 
-<bold> Note: From Tetration 2.2.1.31, the Datatap will embed the topic configuration. The code 
-above will NOT work, you will need to omit the topic to have a working user app</bold><br>
+**Note: From Tetration 2.2.1.31, the Datatap will embed the topic configuration. The code 
+above will NOT work, you will need to omit the topic to have a working user app** <br>
     
 <br>
 The following configuration example will make Tetration look for endpoints in the inventory for the last 
