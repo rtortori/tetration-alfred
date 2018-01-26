@@ -90,7 +90,7 @@ This application has been developed and tested under the following environment c
     - tetpyclient==1.0.5
 - Docker CE 17.12.0-ce (for docker version of tetration-alfred)
 
-## Prerequisites installation (docker)
+## Prerequisites installation (docker version)
 - Install docker CE. Have a look at the 
 [official installation guide](https://docs.docker.com/install/ "Docker Install")
     
@@ -120,7 +120,7 @@ one Kafka broker though Tetration will send data to a single data taps
 debug_mode = True
 ```
 
-### Running the application (docker)
+### Running the application (docker version)
 - Edit the Dockerfile (only if you are behind a proxy)
 - Build tetration-alfred container and run it :
 ``` 
