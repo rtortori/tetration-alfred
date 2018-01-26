@@ -7,5 +7,5 @@
   "VRF" : "tetration_target_vrf_here",
   "app_scope" : "tetration_target_application_scope_here",
   "API_ENDPOINT" : "tetration_endpoint_here",
-  "CREDENTIALS_FILE" : "tetration_credential_file_here"
+  "CREDENTIALS_FILE" : "tetration_credentials.json"
 }

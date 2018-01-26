@@ -19,6 +19,9 @@ that the target Kafka topic has enough partitions. <br>
 Refer to the following link for further info:
 https://kafka.apache.org/documentation/#kafka_mq
 
+Tetration Alfred can be manually installed on any Linux host or build a Docker container that will do
+everything for you (preferred method)
+
 ## Example outcome
 Given the following "question" made by a Tetration User App:
 ```
@@ -39,7 +42,7 @@ Alfred will annotate assets like this:
 | 10.1.1.3 | 14-Dec-2017-18:27:44 | Your_app      | Prod    | vlan-123      | 201     | learned-vmm     | Tetration | Apps  |
 
 
-## Current version: 0.1 
+## Current version: 0.2 
 "Questions" are made in JSON format.<br>
 Current implementation of the JSON question is:<br>
 ```
@@ -64,33 +67,35 @@ User Annotations API.<br>
 ## Road-map (not committed)
 Since the ACI annotation engine is triggered using a specific query in the question, further actions can be implemented 
 by adding new queries.<br><br>
-Plan is to extend annotation support for data fetched from:
-- Cisco AppDynamics
-- Cisco Stealthwatch
-- Cisco Workload Optimization Manager (CWOM)
+A nice UI to manage Alfred won't hurt :)
 
 
 ## Requirements<br>
 - Cisco Tetration Analytics cluster
 - Cisco ACI Fabric
 - At least one working Apache Kafka broker
-- Linux operating system with Python 3.6
+- Linux operating system with Python 3.6 (manual installation)
 
 ## Environment<br>
 This application has been developed and tested under the following environment conditions:<br>
 - Cisco ACI 3.0(1k)
-- Cisco TetrationOS Software, Version 2.1.1.31
+- Cisco TetrationOS Software, Version 2.2.1.31
 - Apache Kafka 0.10.2.1 and 1.0.0
-- Alfred running on CentOS 7.4
-- Python 3.6
-- Python modules (see requirements.txt)
+- Alfred running on CentOS 7.4 (manual installation)
+- Python 3.6 (manual installation)
+- Python modules (see requirements.txt, manual installation)
     - kafka==1.3.5
     - requests==2.18.4
     - tetpyclient==1.0.5
+- Docker CE (docker)
+
+## Prerequisites installation (docker)
+- Install docker CE. Have a look at the 
+[official installation guide](https://docs.docker.com/install/ "Docker Install")
     
-## Prerequisites installation
+## Prerequisites installation (manual install)
 1. Identify or deploy a Linux server (VM or baremetal)
-2. Install python3.6. Examples can be found here: http://ask.xmodulo.com/install-python3-centos.html
+2. Install python3.6. Examples can be found [here](http://ask.xmodulo.com/install-python3-centos.html "Python3 for CentOS")
 3. Install pip3.6 using apt or yum
 4. Install python3 requirements with <br>
 ```pip3.6 install -r requirements.txt ```
@@ -98,23 +103,33 @@ This application has been developed and tested under the following environment c
 6. Move to your favourite directory and clone this repo with <br>
 ```git clone https://github.com/rtortori/tetration-alfred.git```
 7. On your Cisco Tetration Analytics cluster, go to "API Keys" and create a new API Key.<br>
-Save the resulting JSON file under the same directory of tetration_alfred.py
+Save the resulting JSON file under the same directory of tetration_alfred.py and name it "tetration_credentials.json"
 
 ## Alfred usage
 ### Configuration steps
 1. By default Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
 A sample configuration file has been provided: *sample_alfred_configuration.json*. <br>
-Rename it to alfred_configuration.json, edit and put your configuration data
-2. Rename the sample_broker.txt file and specify your target Kafka brokers. You can specify more than
+Rename it to "alfred_configuration.json", edit and put your configuration data
+2. Rename the sample_broker.txt file into "brokers_list.txt" and specify your target Kafka brokers. You can specify more than
 one Kafka broker though Tetration will send data to a single data taps
-3. Rename the sample_apic_data.json file and fill in with your APIC specific configuration
+3. Rename the sample_apic_data.json file into "apic_data.json" and fill in with your APIC specific configuration
 4. Within tetration_alfred.py you can toggle debug mode on/off (default is *on*)<br>
 
 ```
 debug_mode = True
 ```
 
-### Running the application
+### Running the application (docker)
+- Edit the Dockerfile (only if you are behind a proxy)
+- Build tetration-alfred container and run it :
+``` 
+docker build -t tetration-alfred .
+docker run -itd tetration-alfred
+```
+
+- Done.
+
+### Running the application (manual install)
 Start tetration_alfred.py with:<br>
 ```
 python3.6 tetration_alfred.py
@@ -143,7 +158,8 @@ Current implementation supports the following parameters:<br>
     - Prefix of the IPs that Tetration will look for in the inventory
 
 **Note: From Tetration 2.2.1.31, the Datatap will embed the topic configuration. The code 
-above will NOT work, you will need to omit the topic to have a working user app** <br>
+above will NOT work, you will need to omit the topic to have a working user app, this is documented
+in the Tetration User App** <br>
     
 <br>
 The following configuration example will make Tetration look for endpoints in the inventory for the last 
