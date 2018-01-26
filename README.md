@@ -74,7 +74,8 @@ A nice UI to manage Alfred won't hurt :)
 - Cisco Tetration Analytics cluster
 - Cisco ACI Fabric
 - At least one working Apache Kafka broker
-- Linux operating system with Python 3.6 (manual installation)
+- Linux operating system with Python 3.6 (manual installation only)
+- Docker CE (for docker version of tetration-alfred)
 
 ## Environment<br>
 This application has been developed and tested under the following environment conditions:<br>
@@ -87,7 +88,7 @@ This application has been developed and tested under the following environment c
     - kafka==1.3.5
     - requests==2.18.4
     - tetpyclient==1.0.5
-- Docker CE (docker)
+- Docker CE 17.12.0-ce (for docker version of tetration-alfred)
 
 ## Prerequisites installation (docker)
 - Install docker CE. Have a look at the 
