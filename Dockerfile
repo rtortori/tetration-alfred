@@ -5,7 +5,7 @@ FROM rtortori/alpine-python3
 WORKDIR /tetration-alfred
 
 # Copy required configuration files
-ADD alfred_configuration.json apic_data.json brokers_list.txt tetration_credentials.json tetration_alfred.py alfred_utils.py requirements.txt /tetration-alfred/
+ADD alfred_configuration.json apic_data.json brokers_list.txt tetration_credentials.json tetration_alfred.py alfred_utils.py apiserver.py requirements.txt /tetration-alfred/
 
 # Optionally define your proxy environment
 #ENV http_proxy host:port

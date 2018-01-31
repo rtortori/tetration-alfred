@@ -4,7 +4,7 @@ import os
 
 # Define the path of python3 and tetration_alfred.py
 python_executable = '/usr/bin/python3.6'
-alfred_working_dir = '/root/tetration-alfred/'
+alfred_working_dir = '/tetration-alfred/'
 process_executable = 'tetration_alfred.py'
 log_file = 'tetration_alfred.log'
 
