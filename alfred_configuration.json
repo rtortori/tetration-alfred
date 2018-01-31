@@ -1,7 +1,7 @@
 {
   "apic_data_file" : "apic_data.json",
   "brokers_file" : "brokers_list.txt",
-  "topic" : "tetration_aci",
+  "topic" : "kafka_topic_here",
   "consumer_group" : "tetration",
   "annotation_csv_file" : "annotations.csv",
   "VRF" : "tetration_target_vrf_here",

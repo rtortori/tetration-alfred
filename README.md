@@ -67,7 +67,7 @@ User Annotations API.<br>
 ## Road-map (not committed)
 Since the ACI annotation engine is triggered using a specific query in the question, further actions can be implemented 
 by adding new queries.<br><br>
-A nice UI to manage Alfred won't hurt :)
+A nice UI to manage Alfred won't hurt, REST API support just added!
 
 
 ## Requirements<br>
@@ -104,16 +104,16 @@ This application has been developed and tested under the following environment c
 6. Move to your favourite directory and clone this repo with <br>
 ```git clone https://github.com/rtortori/tetration-alfred.git```
 7. On your Cisco Tetration Analytics cluster, go to "API Keys" and create a new API Key.<br>
-Save the resulting JSON file under the same directory of tetration_alfred.py and name it "tetration_credentials.json"
+Save the resulting JSON file under the same directory of tetration_alfred.py and name it "tetration_credentials.json".
+You already have 'tetration_credentials.json' in your working directory, just copy/paste api key and secret.
 
 ## Alfred usage
 ### Configuration steps
-1. By default Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
-A sample configuration file has been provided: *sample_alfred_configuration.json*. <br>
-Rename it to "alfred_configuration.json", edit and put your configuration data
-2. Rename the sample_broker.txt file into "brokers_list.txt" and specify your target Kafka brokers. You can specify more than
-one Kafka broker though Tetration will send data to a single data taps
-3. Rename the sample_apic_data.json file into "apic_data.json" and fill in with your APIC specific configuration
+1. Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
+Edit *alfred_configuration.json* and put your configuration details
+2. *brokers_list.txt* contains the list of Kafka brokers, specify your target Kafka brokers here. 
+You can specify more than one Kafka broker though Tetration will only send data to a single data taps
+3. *apic_data.json* contains the configuration of your ACI setup. Fill in with your APIC specific configuration
 4. Within tetration_alfred.py you can toggle debug mode on/off (default is *on*)<br>
 
 ```
