@@ -1,5 +1,30 @@
 from flask import request, Flask, jsonify, abort, make_response
 import json
+import os
+
+# Define the path of python3 and tetration_alfred.py
+python_executable = '/usr/bin/python3.6'
+alfred_working_dir = '/root/tetration-alfred/'
+process_executable = 'tetration_alfred.py'
+log_file = 'tetration_alfred.log'
+
+
+# Define a function to alter alfred service
+def alfred_alter_service(directive):
+
+    if directive == 'start':
+        os.chdir(alfred_working_dir)
+        os.system('nohup ' + python_executable + ' ' + process_executable + '>' + log_file + '&')
+    elif directive == 'stop':
+        os.chdir(alfred_working_dir)
+        os.system("ps aux | grep tetration | grep -v grep | awk '{print $2}' | xargs kill -9")
+    elif directive == 'restart':
+        os.chdir(alfred_working_dir)
+        alfred_alter_service('stop')
+        alfred_alter_service('start')
+    else:
+        print('Unsupported')
+        exit(1)
 
 # Define Flask app name
 alfred_api = Flask(__name__)
@@ -59,6 +84,23 @@ def get_tetration_cfg():
         print("Couldn't load configuration file")
         abort(404)
     return jsonify(tetration_config)
+
+# REST API - GET service status
+@alfred_api.route('/api/v1/service', methods=['GET'])
+def get_service():
+    process_status = {
+        "alfred_status": "unknown"
+    }
+    try:
+        process_name = 'tetration_alfred.py'
+        process_list = os.popen("ps aux").read()
+        if process_name not in process_list[:]:
+            process_status['alfred_status'] = 'dead'
+        else:
+            process_status['alfred_status'] = 'alive'
+    except Exception:
+        abort(404)
+    return jsonify(process_status)
 
 
 ###### REST API POST Section ######
@@ -142,6 +184,41 @@ def create_tetration_cfg():
         json.dump(tetration_credentials, f2, indent=4, sort_keys=True)
 
     return jsonify(tetration_config), 201
+
+# REST API - POST service start/stop/restart
+@alfred_api.route('/api/v1/service', methods=['POST'])
+def alter_service():
+
+    if not request.json or not 'alter_service' in request.json:
+        abort(400)
+
+    service_altered = {
+        "alfred_service": "unknown"
+    }
+
+    if request.json['alter_service'] == 'start':
+        try:
+            alfred_alter_service('start')
+            service_altered['alfred_service'] = 'started'
+        except Exception:
+            abort(400)
+
+    elif request.json['alter_service'] == 'stop':
+        try:
+            alfred_alter_service('stop')
+            service_altered['alfred_service'] = 'stopped'
+        except Exception:
+            abort(400)
+
+    elif request.json['alter_service'] == 'restart':
+        try:
+            alfred_alter_service('restart')
+            service_altered['alfred_service'] = 'restarted'
+        except Exception:
+            abort(400)
+
+
+    return jsonify(service_altered)
 
 if __name__ == '__main__':
     alfred_api.run(debug=True)
