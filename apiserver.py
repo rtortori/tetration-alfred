@@ -26,6 +26,27 @@ def alfred_alter_service(directive):
         print('Unsupported')
         exit(1)
 
+# Define a function that check remote endpoints reachability
+def check_restapi_reachability(target):
+
+    # Importing current config
+    alfred_config = json.load(open('alfred_configuration.json'))
+    apic_config = json.load(open('apic_data.json'))
+
+    # Parse alfred config to fetch tetration host to probe
+    tetration_host = str(alfred_config['API_ENDPOINT']).split('/')[2]
+    # Parse apic_data.json to fetch APIC to probe
+    apic_host = str(apic_config['apic_ip'])
+
+    if target == 'tetration':
+        host_is_up = True if os.system("ping -c 1 " + tetration_host) is 0 else False
+        return host_is_up
+
+    elif target == 'aci':
+        host_is_up = True if os.system("ping -c 1 " + apic_host) is 0 else False
+        return host_is_up
+
+
 # Define Flask app name
 alfred_api = Flask(__name__)
 
@@ -101,6 +122,25 @@ def get_service():
     except Exception:
         abort(404)
     return jsonify(process_status)
+
+# REST API - GET remote system status
+@alfred_api.route('/api/v1/endpoints', methods=['GET'])
+def get_endpoints():
+    endpoints = {
+        "tetration_status": "unknown",
+        "apic_status": "unknown"
+    }
+    if check_restapi_reachability('tetration'):
+        endpoints['tetration_status'] = 'reachable'
+    else:
+        endpoints['tetration_status'] = 'down'
+
+    if check_restapi_reachability('aci'):
+        endpoints['apic_status'] = 'reachable'
+    else:
+        endpoints['apic_status'] = 'down'
+
+    return jsonify(endpoints)
 
 
 ###### REST API POST Section ######
