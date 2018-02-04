@@ -174,3 +174,7 @@ ip_subnet_prefix = '10.1'
 <br>
 For further information around Tetration User Apps please refer to the "User Guide" present 
 in your Cisco Tetration Analytics cluster.
+
+#### REST API documentation
+Tetration Alfred supports REST APIs.<br>
+TODO: add documentation and examples

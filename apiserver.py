@@ -238,6 +238,7 @@ def alter_service():
 
     if request.json['alter_service'] == 'start':
         try:
+            # TODO you shouldn't be able to start a service already up
             alfred_alter_service('start')
             service_altered['alfred_service'] = 'started'
         except Exception:
@@ -245,6 +246,7 @@ def alter_service():
 
     elif request.json['alter_service'] == 'stop':
         try:
+            # TODO service must be alive to be stopped
             alfred_alter_service('stop')
             service_altered['alfred_service'] = 'stopped'
         except Exception:
@@ -252,6 +254,7 @@ def alter_service():
 
     elif request.json['alter_service'] == 'restart':
         try:
+            # TODO check if restart of a stopped service does work
             alfred_alter_service('restart')
             service_altered['alfred_service'] = 'restarted'
         except Exception:
