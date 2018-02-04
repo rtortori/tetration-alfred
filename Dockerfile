@@ -15,4 +15,4 @@ ADD alfred_configuration.json apic_data.json brokers_list.txt tetration_credenti
 RUN pip install -r requirements.txt
 
 # Run tetration-alfred!
-CMD ["python", "/tetration-alfred/tetration_alfred.py"]
+CMD ["python", "/tetration-alfred/apiserver.py"]

@@ -6,6 +6,6 @@
   "annotation_csv_file" : "annotations.csv",
   "VRF" : "tetration_target_vrf_here",
   "app_scope" : "tetration_target_application_scope_here",
-  "API_ENDPOINT" : "tetration_endpoint_here",
+  "API_ENDPOINT" : "tetration/endpoint/here",
   "CREDENTIALS_FILE" : "tetration_credentials.json"
 }

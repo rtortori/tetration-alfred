@@ -1,5 +1,5 @@
 {
-  "apic_ip" : "apic_endpoint_here",
+  "apic_ip" : "apic/endpoint/here",
   "apic_port" : "apic_port_here",
   "apic_user" : "apic_user_here",
   "apic_password" : "apic_password_here"
