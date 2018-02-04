@@ -261,4 +261,4 @@ def alter_service():
     return jsonify(service_altered)
 
 if __name__ == '__main__':
-    alfred_api.run(debug=True)
+    alfred_api.run(host='0.0.0.0', debug=True)
