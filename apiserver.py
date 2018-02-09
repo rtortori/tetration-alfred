@@ -17,7 +17,7 @@ def alfred_alter_service(directive):
         os.system('nohup ' + python_executable + ' ' + process_executable + '>' + log_file + '&')
     elif directive == 'stop':
         os.chdir(alfred_working_dir)
-        os.system("ps aux | grep tetration | grep -v grep | awk '{print $2}' | xargs kill -9")
+        os.system("ps aux | grep tetration | grep -v grep | awk '{print $1}' | xargs kill -9")
     elif directive == 'restart':
         os.chdir(alfred_working_dir)
         alfred_alter_service('stop')
@@ -36,7 +36,7 @@ def check_restapi_reachability(target):
     # Parse alfred config to fetch tetration host to probe
     tetration_host = str(alfred_config['API_ENDPOINT']).split('/')[2]
     # Parse apic_data.json to fetch APIC to probe
-    apic_host = str(apic_config['apic_ip'])
+    apic_host = str(apic_config['apic_ip']).split('/')[2]
 
     if target == 'tetration':
         host_is_up = True if os.system("ping -c 1 " + tetration_host) is 0 else False
