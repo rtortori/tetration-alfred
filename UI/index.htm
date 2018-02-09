@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
     <title>Tetration Alfred</title>
 
@@ -45,10 +45,16 @@
 
 </head>
 
+
 <body>
 
+<!-- <a href="https://github.com/rtortori/tetration-alfred"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a> -->
+
+<a href="https://github.com/rtortori/tetration-alfred" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+
     <div class="container-fluid" id="Home">
-        <div class="row col-md-10">
+        <div class="row col-md-9">
             <img alt="Tetration Logo" src="img/Tetration.png" width="320px" height="45px">
         </div>
     </div>
@@ -81,6 +87,8 @@
 
 
     <div class="tab-content">
+
+
         <!-- Configure Tab Content -->
         <div class="tab-pane active" id="Configure">
             <div class="tab-content">
@@ -115,80 +123,82 @@
                         <!-- Tetration configuration form -->
                         <div class="container-fluid tab-pane active" id="tetration-config">
                             <div class="col-md-4 col-md-offset-1 well" >
-                                <form role="form" id="tetration-form">
+                                <!-- <form id="configForm" onsubmit="javascript:submitConfigForm()"> -->
+                                <form id="configForm">
                                     <div class="form-group">
                                         <label for="tetration-url">
                                             <strong>Tetration Cluster URL</strong>
                                         </label>
-                                        <input type="url" class="form-control" id="tetration-url" placeholder="https://mycluster.cisco.com">
+                                        <input required type="url" class="form-control" id="tetration-url" placeholder="https://mycluster.cisco.com">
                                     </div>
                                     <div class="form-group">
 
                                         <label for="tetration-api-key">
                                             <strong>Tetration Cluster API Key</strong>
                                         </label>
-                                        <input type="password" class="form-control" id="tetration-api-key" placeholder="API Key">
+                                        <input required type="password" class="form-control" id="tetration-api-key" placeholder="API Key">
                                     </div>
                                     <div class="form-group"> 
                                         <label for="tetration-api-secret">
                                             <strong>Tetration Cluster Secret Key</strong>
                                         </label>
-                                        <input type="password" class="form-control" id="tetration-api-secret" placeholder="API Secret">
+                                        <input required type="password" class="form-control" id="tetration-api-secret" placeholder="API Secret">
                                     </div>
                                     <div class="form-group">
 
                                         <label for="tetration-vrf">
                                             <strong>Tetration Application VRF</strong>
                                         </label>
-                                        <input type="text" class="form-control" id="tetration-vrf" placeholder="VRF">
+                                        <input required type="text" class="form-control" id="tetration-vrf" placeholder="VRF">
                                     </div>
                                     <div class="form-group">
                                         <label for="tetration-app-scope">
                                             <strong>Tetration Application Scope</strong>
                                         </label>
-                                        <input type="text" class="form-control" id="tetration-app-scope" placeholder="Application Scope">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- End of Tetration configuration form -->
+                                        <input required type="text" class="form-control" id="tetration-app-scope" placeholder="Application Scope">
 
-                        <!-- Kafka configuration form -->
-                        <div class="container-fluid tab-pane" id="kafka-config">
-                            <div class="col-md-4 col-md-offset-1 well" >
-                                <form role="form" id="kafka-form" data-ajax="false">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- End of Tetration configuration form -->
+
+                            <!-- Kafka configuration form -->
+                            <div class="container-fluid tab-pane" id="kafka-config">
+                                <div class="col-md-4 col-md-offset-1 well" >
+
                                     <div class="form-group">
                                         <label for="kafka-ip">
                                             <strong>Kafka Broker IP</strong>
                                         </label>
-                                        <input type="text" class="form-control" id="kafka-ip" placeholder="1.2.3.4">
+                                        <input required type="text" class="form-control" id="kafka-ip" placeholder="1.2.3.4">
                                     </div>
                                     <div class="form-group">
                                         <label for="kafka-port">
                                             <strong>Kafka Broker Port</strong>
                                         </label>
-                                        <input type="number" class="form-control" id="kafka-port" placeholder="9092">
+                                        <input required type="number" class="form-control" id="kafka-port" placeholder="9092">
                                     </div>
                                     <div class="form-group"> 
                                         <label for="kafka-topic">
                                             <strong>Kafka Topic (as appears in Datatap configuration)</strong>
                                         </label>
-                                        <input type="text" class="form-control" id="kafka-topic" placeholder="tetration">
+                                        <input required type="text" class="form-control" id="kafka-topic" placeholder="tetration">
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- End of Kafka configuration form -->
 
-                        <!-- APIC configuration form -->
-                        <div class="container-fluid tab-pane" id="aci-config">
-                            <div class="col-md-4 col-md-offset-1 well" >
-                                <form role="form" id="aci-form" data-ajax="false">
+                                </div>
+                            </div>
+                            <!-- End of Kafka configuration form -->
+
+                            <!-- APIC configuration form -->
+                            <div class="container-fluid tab-pane" id="aci-config">
+                                <div class="col-md-4 col-md-offset-1 well" >
+
                                     <div class="form-group">
-                                        <label for="aci-endpoint">
+                                        <label for="apic-endpoint">
                                             <strong>APIC URL</strong>
                                         </label>
-                                        <input type="url" class="form-control" id="aci-endpoint" placeholder="https://myapic.cisco.com">
+                                        <input type="url" class="form-control" id="apic-endpoint" placeholder="https://myapic.cisco.com">
                                     </div>
                                     <div class="form-group">
                                         <label for="apic-port">
@@ -208,18 +218,19 @@
                                         </label>
                                         <input type="password" class="form-control" id="apic-password" placeholder="Password">
                                     </div>
-                                </form>
+
+                                </div>
                             </div>
+                            <!-- End of APIC configuration form -->
                         </div>
-                        <!-- End of APIC configuration form -->
-                    </div>
-                </div>
+                    </div>                
+                </form>
             </div>
         </div>
         <!-- Operate Tab Content -->
         <div class="tab-pane" id="Operate">
-            <div class="container-fluid col-md-7" id="service_table">
-                <table class="table table-bordered table-striped table-responsive" id="operate-table">
+            <div class="col-md-7" id="service_table">
+                <table class="table table-bordered table-striped" id="operate-table">
                     <thead>
                         <tr>
                             <th scope="col" class="col-md-4">Service</th>
@@ -234,25 +245,25 @@
                             <!-- <button type="button" class="btn btn-primary">
                                 <span uk-icon="icon: check" align="left"> Reachable </span>
                             </button> -->
-                            <h4>
-                                <span class="label label-success"> 
-                                    <span uk-icon="icon: check"> Up
+                            <h5>
+                                <span class="label" id="alfred-status-label"> 
+                                    <span uk-icon="icon: check; ratio: 0.5"> Unknown
                                     </span>
                                 </span>
-                            </h4>
-                        </button>
+                            </h5>
+                        <!-- </button> -->
                     </td>
                     <td align="center">
 
-                        <button type="button" class="btn btn-success">
+                        <button type="button" class="btn btn-success btn-sm" id="alfredStart">
                             Start 
                         </button>
 
-                        <button type="button" class="btn btn-danger">
+                        <button type="button" class="btn btn-danger btn-sm" id="alfredStop">
                             Stop 
                         </button>
 
-                        <button type="button" class="btn btn-warning">
+                        <button type="button" class="btn btn-warning btn-sm" id="alfredRestart">
                             Restart 
                         </button>
 
@@ -265,22 +276,22 @@
                     <!-- <button type="button" class="btn btn-primary">
                         <span uk-icon="icon: check" align="left"> Reachable </span>
                     </button> -->
-                    <h4>
-                                <span class="label label-success"> 
-                                    <span uk-icon="icon: check"> Up
-                                    </span>
-                                </span>
-                            </h4>
+                    <h5>
+                        <span class="label label-success"> 
+                            <span uk-icon="icon: check; ratio: 0.5"> Available
+                            </span>
+                        </span>
+                    </h5>
                 </td>
                 <td align="center">
 
-                    <button type="button" class="btn btn-success" disabled>
+                    <button type="button" class="btn btn-success btn-sm" disabled>
                         Enabled 
                     </button>
 
-                    <button type="button" class="btn btn-danger">
+                    <!-- <button type="button" class="btn btn-danger">
                         Disable 
-                    </button>
+                    </button> -->
 
 
 
@@ -294,17 +305,17 @@
                 <!-- <button type="button" class="btn btn-primary">
                     <span uk-icon="icon: check" align="left"> Reachable </span>
                 </button> -->
-                <h4>
-                                <span class="label label-success"> 
-                                    <span uk-icon="icon: check"> Up
-                                    </span>
-                                </span>
-                            </h4>
+                <h5>
+                    <span class="label label-danger"> 
+                        <span uk-icon="icon: ban; ratio: 0.5"> Down
+                        </span>
+                    </span>
+                </h5>
             </td>
             <td align="center">
 
 
-                <button type="button" class="btn btn-danger" disabled>
+                <button type="button" class="btn btn-danger btn-sm" disabled>
                     Disabled
                 </button>
 
@@ -320,12 +331,15 @@
 
 
 
-<div class="row col-md-4">
+<div class="row col-md-12">
     <a class="btn btn-primary" href="#">Connect to Tetration Analytics</a>
 </div>
-<div class="row col-md-4">
+<br>
+<br>
+<div class="row col-md-12">
     <a class="btn btn-primary" href="#">Connect to APIC</a>
 </div>
+
 
 
 
@@ -350,14 +364,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
 
+<!-- Alfred JS -->
+<script src="js/alfred.js"></script>
 
 
 <footer class="container-fluid footer col-md-12">
-  <div class="container-fluid">
-    <span class="text-muted"><span class="fa fa-github"></span>
-    <a href="https://github.com/rtortori/tetration-alfred">Alfred on Github</a> 
-</span>
-</div>
+
 </footer>
 
 </body>
