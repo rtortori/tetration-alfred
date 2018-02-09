@@ -4,6 +4,12 @@ alfred.js
 
 */
 
+// Start Welcome modal at page load
+$(window).on('load',function(){
+        $('#welcomeModal').modal('show');
+    });
+
+
 // Set content type to JSON for POST calls
 $.ajaxSetup({
 	contentType: "application/json; charset=utf-8"
