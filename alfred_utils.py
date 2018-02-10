@@ -39,9 +39,11 @@ def tet_annotate(operation_type, API_ENDPOINT, CREDENTIALS_FILE, annotation_csv_
 # Define a function to call in order to fetch endpoint detail from APIC
 def fetch_ep_detail(ep, apic_ip, apic_port, apic_user, apic_password):
     # APIC REST calls
-    auth_url = "https://{}:{}/api/mo/aaaLogin.xml".format(apic_ip, apic_port)
+    #auth_url = "https://{}:{}/api/mo/aaaLogin.xml".format(apic_ip, apic_port)
+    auth_url = "{}:{}/api/mo/aaaLogin.xml".format(apic_ip, apic_port)
     data = '''<aaaUser name='{}' pwd='{}'/>"'''.format(apic_user, apic_password)
-    ep_url = 'https://{}:{}/api/node/class/fvCEp.json?rsp-subtree=full&rsp-subtree-include=required&rsp-subtree-filter=eq(fvIp.addr,"{}")'.format(apic_ip, apic_port, ep)
+    #ep_url = 'https://{}:{}/api/node/class/fvCEp.json?rsp-subtree=full&rsp-subtree-include=required&rsp-subtree-filter=eq(fvIp.addr,"{}")'.format(apic_ip, apic_port, ep)
+    ep_url = '{}:{}/api/node/class/fvCEp.json?rsp-subtree=full&rsp-subtree-include=required&rsp-subtree-filter=eq(fvIp.addr,"{}")'.format(apic_ip, apic_port, ep)
     # Leverage session responses in subsequent calls to APIC
     ses = requests.Session()
     # Logging in to APIC

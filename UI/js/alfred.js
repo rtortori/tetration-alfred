@@ -8,7 +8,7 @@ alfred.js
 
 // Start Welcome modal at page load
 $(window).on('load',function(){
-	getAlfredStatus();	
+	updateStatus();	
 	getEndpointsStatus();
 	$('#welcomeModal').modal('show');
 });
@@ -57,7 +57,7 @@ var alfredRestartButton = $("#alfredRestart");
 
 // Get Alfred Status function
 
-function getAlfredStatus(){
+function updateStatus(){
 	$.getJSON(serviceAPI)
 	.done(function(result){
 		alfredStatus = result.alfred_status
@@ -72,6 +72,7 @@ function getAlfredStatus(){
 			// Operate tab is hidden by default. It will only appear if the user submits the configuration
 			// or if the service is up (which can be only if configuration has been submitted in the past)
 			// This fixes the issue where operate tab is hidden if user reloads the page
+			updateConnectButtons();
 			$("#operate-tab").removeClass("hide")
 		} else {
 			alfredStatusLabel.html("<span uk-icon='icon: ban; ratio: 0.5'>Down</span>")
@@ -124,6 +125,7 @@ function getEndpointsStatus(){
 // Set APIC and Tetration connect buttons 
 
 function updateConnectButtons(){
+
 	var tetrationConnectButton = $("#tetration-connect-btn");
 	var apicConnectButton = $("#apic-connect-btn");
 
@@ -139,11 +141,23 @@ function updateConnectButtons(){
 	})
 }
 
+// Start Alfred function
+
+function startAlfred(){
+
+	$.post(serviceAPI, '{"alter_service": "start"}')
+	.done(function(data){
+		alfredStartButton.addClass("disabled");
+		alfredStopButton.removeClass("disabled");
+		updateStatus();
+	});
+
+}
 
 // Fetch services status every minute (30s)
 
 setInterval(function() {
-	getAlfredStatus();	
+	updateStatus();	
 	getEndpointsStatus();
 }, 10000);
 
@@ -151,7 +165,7 @@ setInterval(function() {
 
 refreshStatusButton.on("click", function(){
 	
-	getAlfredStatus();
+	updateStatus();
 	getEndpointsStatus();
 
 });
@@ -160,14 +174,7 @@ refreshStatusButton.on("click", function(){
 // Start button actions
 
 alfredStartButton.on("click", function(){
-	
-	$.post(serviceAPI, '{"alter_service": "start"}')
-	.done(function(data){
-		alfredStartButton.addClass("disabled");
-		alfredStopButton.removeClass("disabled");
-		getAlfredStatus();
-	});
-
+	startAlfred();
 });
 
 
@@ -180,7 +187,7 @@ alfredStopButton.on("click", function(){
 		alfredStopButton.addClass("disabled")
 		alfredStartButton.removeClass("disabled")
 		alfredStopButton.disabled = true
-		getAlfredStatus()
+		updateStatus()
 	});
 
 });
@@ -193,7 +200,7 @@ alfredRestartButton.on("click", function(){
 	
 	$.post(serviceAPI, '{"alter_service": "restart"}')
 	.done(function(data){
-		getAlfredStatus()
+		updateStatus()
 	});
 
 });
@@ -247,25 +254,9 @@ submitConfirm.on("click", function(){
 	
 	submitConfirm.button("loading");
 	submitConfigForm();
+	startAlfred();
 	updateConnectButtons();
 	submitModal.modal("hide");
 	$("#operate-tab").removeClass("hide");
-
-	// Update connect buttons
-
-	var tetrationConnectButton = $("#tetration-connect-btn");
-	var apicConnectButton = $("#apic-connect-btn");
-
-	$.getJSON(tetrationAPI, function(result){
-		tetrationURL = result.API_ENDPOINT
-		tetrationConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + tetrationURL + "' id='tetration-connect-btn'>Connect</a>");
-	});
-
-	$.getJSON(apicAPI, function(result){
-		apicURL = result.apic_ip
-		apicConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + apicURL + "' id='apic-connect-btn'>Connect</a>");
-
-	})
-
 });
 
