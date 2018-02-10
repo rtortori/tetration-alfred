@@ -8,24 +8,14 @@
     <title>Alfred</title>
 
     <meta name="Tetration Alfred UI" content="UI for Alfred">
+    <link rel="shortcut icon" type="image/png" href="img/ms-icon-310x310.png">
 
-    <link rel="shortcut icon" type="image/png" href="img/ms-icon-310x310.png"/>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Bootstrap Toggle -->
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-
-    <!-- UI KIT -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/css/uikit.min.css" />
-
-    <!-- Font Awesome -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+    <!-- Stylesheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" >
+    <link href="css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="css/uikit.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
 
     <style> 
     #submit-btn {
@@ -39,17 +29,16 @@
         bottom:  20px;
 
     }
-
-
+    .alert-api-unreachable {
+      position: absolute;
+      top: 90px;
+      left: 10px;
+      right: 10px;
+  }
 
 </style>
-
 </head>
-
-
 <body>
-
-
 
     <a target="_blank" href="https://github.com/rtortori/tetration-alfred" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
@@ -65,8 +54,8 @@
       </div>
       <div class="modal-body">
         <div class="jumbotron jumbotron-fluid">
-            <h2 class="container-fluid">Welcome to Alfred!</h2>
-            <p class="container">Disclaimer: This is <strong>NOT</strong> an official Cisco application and comes with absolute <strong>NO WARRANTY!</strong></p>
+            <h2 class="container display-1">Welcome to Alfred!</h2>
+            <p class="container lead">Disclaimer: This is <strong>NOT</strong> an official Cisco application and comes with absolute <strong>NO WARRANTY!</strong></p>
             <div class="container">
                 <p class="row col-md-12"><h4>What is this?</h4></p>
                 <p>Alfred is a Kafka consumer application that answers Cisco Tetration Analytics "questions".</p>
@@ -78,8 +67,7 @@
                     The "Operate" tab will provide you a view on the current status as well as controls to alter Alfred services. <br>Click on the "Start" button to start the service.<br> You can now move to Tetration and ask questions! Visit <a target="_blank" href="https://github.com/rtortori/tetration-alfred">Alfred Github page</a> to learn more and find sample user apps.</a></p>
                 </p>
             </div>
-        </div>
-        
+        </div>       
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Got it!</button>
@@ -88,15 +76,17 @@
 </div>
 </div>
 
-
-
-
 <div class="container-fluid" id="Home">
     <div class="row col-md-9">
         <img alt="Tetration Logo" src="img/Tetration.png" width="320px" height="45px">
     </div>
 </div>
 
+<!-- Alarms section -->
+<div class="alert-api-unreachable">
+  <div class="alert alert-danger hide" id="al-api-unreach"><strong>Warning: </strong>Alfred API is either down or unreachable from the browser (TCP/5000)</div>
+</div>
+<!-- End of Alarms section -->
 
 <div class="breadcrumb">
     <span class="breadcrumb-item">
@@ -107,17 +97,20 @@
     </span>
 </div>
 
+<!-- Div to hide everything if API is unreachable -->
+<div id="alfred-content">
+
 <div class="container-fluid">
     <div class="row col-md-12">
         <ul class="nav nav-tabs">
             <li class="active">
-                <a data-toggle="tab" href="#Configure">Configure</a>
+                <a data-toggle="tab" href="#Configure" id="configure-tab">Configure</a>
             </li>
             <li>
-                <a data-toggle="tab" href="#Operate" >Operate</a>
+                <a data-toggle="tab" href="#Operate" class="hide" id="operate-tab" >Operate</a>
             </li>
             <li class="disabled">
-                <a data-toggle="tab" href="#Monitor">Monitor</a>
+                <a data-toggle="tab" href="#Monitor" class="hide" id="monitor-tab">Monitor</a>
             </li>
         </ul>
     </div>
@@ -125,8 +118,6 @@
 
 
 <div class="tab-content">
-
-
     <!-- Configure Tab Content -->
     <div class="tab-pane active" id="Configure">
         <div class="tab-content">
@@ -147,14 +138,8 @@
                         <li class="disabled"><a data-toggle="pill" href="#mail-config"> Mail Server Config</a></li>
                     </ul>
                     <div class="container-fluid" id="submit-btn">
-                            <!-- <button type="submit" class="btn btn-primary">
-                                Submit
-                            </button> -->
-
-                            <!-- Modal config -->
                             <a href="#submitModal" role="button" class="btn btn-primary" data-toggle="modal">Submit
-                            </a>
-                            
+                            </a>                      
                             <div id="submitModal" class="modal fade">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -165,7 +150,8 @@
                                   </button>
                               </div>
                               <div class="modal-body">
-                                <p>You are about to configure Tetration Alfred with the submitted data.<br>Are you sure?</p>
+                                <p>You are about to configure Tetration Alfred with the submitted data.<br>
+                                Once completed, start Alfred from the Operate tab</p>
                             </div>
                             <div class="modal-footer">
                                 <button id="submitConfirm" type="submit" class="btn btn-primary">Confirm</button>
@@ -174,12 +160,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
-
 
         <div class="tab-content">
             <!-- Tetration configuration form -->
@@ -373,7 +355,12 @@
         </h5>
     </td>
     <td align="center" id="tetration-connect-btn">
-        <a class="btn btn-primary" href="#">Connect</a>
+        <h5>
+            <span class="label label-danger"> 
+                <span uk-icon="icon: ban; ratio: 0.5"> Unavailable
+                </span>
+            </span>
+        </h5>
     </td>
 </tr>
 <tr>
@@ -387,43 +374,37 @@
     </h5>
 </td>
 <td align="center" id="apic-connect-btn">
-    <a class="btn btn-primary" href="#">Connect</a>
+    <h5>
+        <span class="label label-danger"> 
+            <span uk-icon="icon: ban; ratio: 0.5"> Unavailable
+            </span>
+        </span>
+    </h5>
 </td>
 </tr>
 </tbody>
 </table>
 
-
 </div>
 </div>
 </div>
 </div>
 </div>
 
-
+<!-- Div to hide everything in case API is unreachable -->
+</div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-<!-- Bootstrap Toggle -->
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-
-<!-- UIkit JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.39/js/uikit-icons.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-toggle.min.js"></script>
+<script src="js/uikit.min.js"></script>
+<script src="js/uikit-icons.min.js"></script>
 
 <!-- Alfred JS -->
 <script src="js/alfred.js"></script>
 
-
 <footer class="container-fluid footer col-md-12">
-
 </footer>
-
 </body>
-
-
 </html>

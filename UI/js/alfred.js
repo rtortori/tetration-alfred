@@ -8,6 +8,8 @@ alfred.js
 
 // Start Welcome modal at page load
 $(window).on('load',function(){
+	getAlfredStatus();	
+	getEndpointsStatus();
 	$('#welcomeModal').modal('show');
 });
 
@@ -56,7 +58,8 @@ var alfredRestartButton = $("#alfredRestart");
 // Get Alfred Status function
 
 function getAlfredStatus(){
-	$.getJSON(serviceAPI, function(result){
+	$.getJSON(serviceAPI)
+	.done(function(result){
 		alfredStatus = result.alfred_status
 		if (alfredStatus == "alive") {
 			alfredStatusLabel.html("<span uk-icon='icon: check; ratio: 0.5'>Alive</span>")
@@ -65,6 +68,11 @@ function getAlfredStatus(){
 			alfredStartButton.addClass("disabled")
 			alfredRestartButton.removeClass("disabled")
 			alfredStopButton.removeClass("disabled")
+			$("#monitor-tab").removeClass("hide")
+			// Operate tab is hidden by default. It will only appear if the user submits the configuration
+			// or if the service is up (which can be only if configuration has been submitted in the past)
+			// This fixes the issue where operate tab is hidden if user reloads the page
+			$("#operate-tab").removeClass("hide")
 		} else {
 			alfredStatusLabel.html("<span uk-icon='icon: ban; ratio: 0.5'>Down</span>")
 			alfredStatusLabel.removeClass("label-success")
@@ -72,9 +80,18 @@ function getAlfredStatus(){
 			alfredStopButton.addClass("disabled")
 			alfredRestartButton.addClass("disabled")
 			alfredStartButton.removeClass("disabled")
-		}	
-	})
-};
+			$("#monitor-tab").addClass("hide")
+
+		}
+		$("#al-api-unreach").addClass("hide");
+		$("#alfred-content").removeClass("hide");
+	})	.fail(function(r){
+		$("#al-api-unreach").removeClass("hide");
+		$("#alfred-content").addClass("hide");
+	});
+
+}
+
 
 // Get endpoints status
 
@@ -103,12 +120,32 @@ function getEndpointsStatus(){
 	})
 };
 
+
+// Set APIC and Tetration connect buttons 
+
+function updateConnectButtons(){
+	var tetrationConnectButton = $("#tetration-connect-btn");
+	var apicConnectButton = $("#apic-connect-btn");
+
+	$.getJSON(tetrationAPI, function(result){
+		tetrationURL = result.API_ENDPOINT
+		tetrationConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + tetrationURL + "' id='tetration-connect-btn'>Connect</a>");
+	});
+
+	$.getJSON(apicAPI, function(result){
+		apicURL = result.apic_ip
+		apicConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + apicURL + "' id='apic-connect-btn'>Connect</a>");
+
+	})
+}
+
+
 // Fetch services status every minute (30s)
 
 setInterval(function() {
 	getAlfredStatus();	
 	getEndpointsStatus();
-}, 30000);
+}, 10000);
 
 // Refresh button action
 
@@ -126,9 +163,9 @@ alfredStartButton.on("click", function(){
 	
 	$.post(serviceAPI, '{"alter_service": "start"}')
 	.done(function(data){
-		alfredStartButton.addClass("disabled")
-		alfredStopButton.removeClass("disabled")
-		getAlfredStatus()
+		alfredStartButton.addClass("disabled");
+		alfredStopButton.removeClass("disabled");
+		getAlfredStatus();
 	});
 
 });
@@ -210,23 +247,25 @@ submitConfirm.on("click", function(){
 	
 	submitConfirm.button("loading");
 	submitConfigForm();
+	updateConnectButtons();
 	submitModal.modal("hide");
+	$("#operate-tab").removeClass("hide");
+
+	// Update connect buttons
+
+	var tetrationConnectButton = $("#tetration-connect-btn");
+	var apicConnectButton = $("#apic-connect-btn");
+
+	$.getJSON(tetrationAPI, function(result){
+		tetrationURL = result.API_ENDPOINT
+		tetrationConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + tetrationURL + "' id='tetration-connect-btn'>Connect</a>");
+	});
+
+	$.getJSON(apicAPI, function(result){
+		apicURL = result.apic_ip
+		apicConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + apicURL + "' id='apic-connect-btn'>Connect</a>");
+
+	})
 
 });
-
-// Set APIC and Tetration connect buttons
-
-var tetrationConnectButton = $("#tetration-connect-btn");
-var apicConnectButton = $("#apic-connect-btn");
-
-$.getJSON(tetrationAPI, function(result){
-	tetrationURL = result.API_ENDPOINT
-	tetrationConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + tetrationURL + "' id='tetration-connect-btn'>Connect</a>");
-});
-
-$.getJSON(apicAPI, function(result){
-	apicURL = result.apic_ip
-	apicConnectButton.html("<a target='_blank' class='btn btn-sm btn-default' href='" + apicURL + "' id='apic-connect-btn'>Connect</a>");
-
-})
 
