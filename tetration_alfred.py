@@ -6,6 +6,9 @@ from kafka import KafkaConsumer
 
 # Import alfred utils
 import alfred_utils
+from alfred_utils import write_to_log as log
+
+log('alfred','info','Alfred started')
 
 # Debug mode
 debug_mode = True
@@ -13,13 +16,16 @@ debug_mode = True
 # Open the global configuration file
 try:
     configuration = json.load(open('alfred_configuration.json'))
+    log('alfred','info','Configuration file is OK')
 except Exception:
-    print("Couldn't load the configuration file")
+    #print("Couldn't load the configuration file")
+    log('alfred', 'critical', "Couldn't load the configuration file")
     exit(1)
 
 # Tetration Configuration
 API_ENDPOINT = configuration['API_ENDPOINT']
 CREDENTIALS_FILE = configuration['CREDENTIALS_FILE']
+log('alfred','info','Tetration config initialized')
 
 # Global Configuration
 apic_data_file = configuration['apic_data_file']
@@ -30,13 +36,18 @@ annotation_csv_file = configuration['annotation_csv_file']
 VRF = configuration['VRF']
 app_scope = configuration['app_scope']
 
+
 # Open the brokers file and create a list of brokers
 with open(brokers_file) as f:
     brokers = f.readlines()
+    log('alfred', 'info', 'Kafka brokers config initialized')
+    log('kafka', 'info', 'Kafka brokers config initialized')
 brokers = [x.strip() for x in brokers]
 
 # Open the apic_config_file to fetch APIC configuration
 apic_data = json.load(open(apic_data_file))
+log('alfred','info','APIC config initialized')
+log('aci-annotations','info','APIC config initialized')
 
 # APIC Configuration
 apic_ip = apic_data['apic_ip']
@@ -44,11 +55,19 @@ apic_port = apic_data['apic_port']
 apic_user = apic_data['apic_user']
 apic_password = apic_data['apic_password']
 
+log('alfred','info','APIC config built')
+
 # Initialize KafkaConsumer, deserialize the values in JSON format
 consumer = KafkaConsumer('{}'.format(topic),
                          group_id='{}'.format(consumer_group),
                          bootstrap_servers = brokers,
                          value_deserializer=json.loads)
+
+log('alfred','info','Kafka Consumer initialized')
+log('kafka','info','Kafka Consumer initialized')
+log('kafka','info','Kafka Consumer topic: {}'.format(topic))
+log('kafka','info','Kafka Consumer brokers: {}'.format(brokers))
+log('kafka','info','Kafka Consumer config: {}'.format(consumer.config))
 
 # Debug
 if debug_mode:
@@ -62,6 +81,8 @@ while True:
         try:
             last_msg_value = message.value
             last_msg_offset = message.offset
+            log('kafka', 'debug', '{} - OFFSET: {}'.format(last_msg_value, last_msg_offset))
+
             # Debug
             if debug_mode:
                 print(last_msg_value, last_msg_offset)
@@ -84,6 +105,8 @@ while True:
                     try:
                         ep_detail = alfred_utils.fetch_ep_detail(item, apic_ip, apic_port, apic_user, apic_password)
                         time_now = time.strftime("%d-%b-%Y-%H:%M:%S", time.gmtime())
+
+                        log('aci-annotations', 'debug', '{}'.format(ep_detail))
 
                         # Debug
                         if debug_mode:
@@ -118,12 +141,13 @@ while True:
 
                         # Push Annotation to Tetration
                         alfred_utils.tet_annotate('add', API_ENDPOINT, CREDENTIALS_FILE, annotation_csv_file, app_scope)
-
+                        log('alfred', 'debug', 'Asset annotated in Tetration: {}'.format(item))
 
                     except Exception:
                         # Will trigger if the condition of the fetch_ep_detail function is not met
                         if debug_mode:
                             print('Endpoint not present')
+                        log('alfred', 'error', 'Endpoint not present: {}'.format(item))
                         pass
 
                 if debug_mode:
@@ -133,4 +157,5 @@ while True:
         except Exception:
             if debug_mode:
                 print('Error processing message, moving on')
+            log('alfred', 'error', 'Malformed message. Question: {}'.format(query_type))
             pass

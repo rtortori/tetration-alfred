@@ -3,6 +3,7 @@ import urllib3
 import json
 import csv
 import tetpyclient
+import logging
 from tetpyclient import RestClient
 
 # Enable or disable debugging
@@ -70,7 +71,6 @@ def fetch_ep_detail(ep, apic_ip, apic_port, apic_user, apic_password):
             return tenant, application, epg, encap, node, lcC
 
 # Define a function that creates the annotation CSV
-
 def create_annotation(annotation_csv_file, ep, vrf, tenant, application, epg, encapsulation, leaf_id, learning_source, aci_info_date):
     try:
         with open('{}'.format(annotation_csv_file), 'w') as csvfile:
@@ -96,3 +96,46 @@ def create_annotation(annotation_csv_file, ep, vrf, tenant, application, epg, en
                                  aci_info_date])
     except Exception:
         print('An error occurred during CSV creation')
+
+
+# Function to setup logger
+def setup_logger(name, logfile, level=logging.DEBUG):
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler = logging.FileHandler(logfile)
+    handler.setFormatter(formatter)
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.handlers.clear()
+    logger.addHandler(handler)
+    return logger
+
+# Write logs
+def write_to_log(feature, facility, message):
+
+    if feature == 'alfred':
+        print('feature is alfred')
+        logger = setup_logger('ALFRED', 'logs/alfred.log')
+
+    elif feature == 'aci-annotations':
+        print('feature is aci')
+        logger = setup_logger('ACI-ANNOTATIONS', 'logs/aci-annotations.log')
+
+    elif feature == 'kafka':
+        print('feature is kafka')
+        logger = setup_logger('KAFKA', 'logs/kafka.log')
+
+    if facility == 'debug':
+        print('facility is debug')
+        logger.debug(message)
+    elif facility == 'info':
+        print('facility is info')
+        logger.info(message)
+    elif facility == 'warning':
+        print('facility is warning')
+        logger.warning(message)
+    elif facility == ('error'):
+        print('facility is error')
+        logger.error(message)
+    elif facility == 'critical':
+        print('facility is critical')
+        logger.critical(message)
