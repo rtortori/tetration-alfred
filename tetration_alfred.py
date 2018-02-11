@@ -93,6 +93,7 @@ while True:
 
             # Define action if Tetration is asking for endpoints detail
             if query_type == 'get_endpoint_detail':
+                log('alfred','debug','New incoming ACI annotation request for: {}'.format(payload))
                 # Tetration MUST pass the list of endpoints into a list
                 for item in payload:
                     # Debug
@@ -106,7 +107,7 @@ while True:
                         ep_detail = alfred_utils.fetch_ep_detail(item, apic_ip, apic_port, apic_user, apic_password)
                         time_now = time.strftime("%d-%b-%Y-%H:%M:%S", time.gmtime())
 
-                        log('aci-annotations', 'debug', '{}'.format(ep_detail))
+                        log('aci-annotations', 'debug', 'Query for: {}'.format(item))
 
                         # Debug
                         if debug_mode:
@@ -141,13 +142,13 @@ while True:
 
                         # Push Annotation to Tetration
                         alfred_utils.tet_annotate('add', API_ENDPOINT, CREDENTIALS_FILE, annotation_csv_file, app_scope)
-                        log('alfred', 'debug', 'Asset annotated in Tetration: {}'.format(item))
+                        log('aci-annotations', 'debug', 'Asset annotated in Tetration: {}'.format(item))
 
                     except Exception:
                         # Will trigger if the condition of the fetch_ep_detail function is not met
                         if debug_mode:
                             print('Endpoint not present')
-                        log('alfred', 'error', 'Endpoint not present: {}'.format(item))
+                        log('aci-annotations', 'error', 'Endpoint not present: {}'.format(item))
                         pass
 
                 if debug_mode:
