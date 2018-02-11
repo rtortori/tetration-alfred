@@ -17,7 +17,7 @@ def alfred_alter_service(directive):
         os.system('nohup ' + python_executable + ' ' + process_executable + '>' + log_file + '&')
     elif directive == 'stop':
         os.chdir(alfred_working_dir)
-        os.system("ps aux | grep tetration | grep -v grep | awk '{print $1}' | xargs kill -9")
+        os.system("ps aux | grep tetration_alfred.py | grep -v grep | awk '{print $1}' | xargs kill -9")
     elif directive == 'restart':
         os.chdir(alfred_working_dir)
         alfred_alter_service('stop')
