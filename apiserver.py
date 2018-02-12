@@ -142,6 +142,31 @@ def get_endpoints():
 
     return jsonify(endpoints)
 
+# REST API - GET Alfred logs
+@alfred_api.route('/api/v1/alfred-logs', methods=['GET'])
+def get_alfred_logs():
+    def generate():
+        with open('logs/alfred.log') as f:
+            yield f.read()
+    return alfred_api.response_class(generate(), mimetype='text/plain')
+
+# REST API - GET Kafka logs
+@alfred_api.route('/api/v1/kafka-logs', methods=['GET'])
+def get_kafka_logs():
+    def generate():
+        with open('logs/kafka.log') as f:
+            yield f.read()
+    return alfred_api.response_class(generate(), mimetype='text/plain')
+
+# REST API - GET ACI Annotations logs
+@alfred_api.route('/api/v1/aci-annotations-logs', methods=['GET'])
+def get_aci_annotations_logs():
+    def generate():
+        with open('logs/aci-annotations.log') as f:
+            yield f.read()
+    return alfred_api.response_class(generate(), mimetype='text/plain')
+
+
 
 ###### REST API POST Section ######
 

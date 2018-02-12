@@ -30,6 +30,9 @@ var brokerAPI = "http://" + alfredEndpoint + ":5000/api/v1/broker"
 var tetrationAPI = "http://" + alfredEndpoint + ":5000/api/v1/tetration"
 var apicAPI = "http://" + alfredEndpoint + ":5000/api/v1/apic"
 var endpointAPI = "http://" + alfredEndpoint + ":5000/api/v1/endpoints"
+var alfredLogsAPI = "http://" + alfredEndpoint + ":5000/api/v1/alfred-logs"
+var kafkaLogsAPI = "http://" + alfredEndpoint + ":5000/api/v1/kafka-logs"
+var aciAnnotationsLogsAPI = "http://" + alfredEndpoint + ":5000/api/v1/aci-annotations-logs"
 
 // Buttons variables
 var refreshStatusButton = $("#refresh-status-button");
@@ -53,6 +56,10 @@ var apicStatusLabel = $("#apic-status-label");
 var alfredStartButton = $("#alfredStart");
 var alfredStopButton = $("#alfredStop");
 var alfredRestartButton = $("#alfredRestart");
+
+var alfredLogsOutput = $("#alfred-logs-pre");
+var kafkaLogsOutput = $("#kafka-logs-pre");
+var aciLogsOutput = $("#aci-annotations-logs-pre");
 
 
 // Get Alfred Status function
@@ -93,7 +100,6 @@ function updateStatus(){
 
 }
 
-
 // Get endpoints status
 
 function getEndpointsStatus(){
@@ -125,7 +131,6 @@ function getEndpointsStatus(){
 // Set APIC and Tetration connect buttons 
 
 function updateConnectButtons(){
-
 	var tetrationConnectButton = $("#tetration-connect-btn");
 	var apicConnectButton = $("#apic-connect-btn");
 
@@ -141,10 +146,23 @@ function updateConnectButtons(){
 	})
 }
 
+
+// Update Alfred, Kakfa and ACI Annotations logs
+function updateLogs(){
+    var alogs = $.get(alfredLogsAPI)
+    var klogs = $.get(kafkaLogsAPI)
+    var acilogs = $.get(aciAnnotationsLogsAPI)
+    .done(function(){
+    alfredLogsOutput.append(alogs.responseText);
+    kafkaLogsOutput.append(klogs.responseText);
+    aciLogsOutput.append(acilogs.responseText);      
+    })
+};
+
+
 // Start Alfred function
 
 function startAlfred(){
-
 	$.post(serviceAPI, '{"alter_service": "start"}')
 	.done(function(data){
 		alfredStartButton.addClass("disabled");
@@ -161,10 +179,13 @@ setInterval(function() {
 	getEndpointsStatus();
 }, 10000);
 
+setInterval(function() {
+    updateLogs();
+}, 30000);
+
 // Refresh button action
 
 refreshStatusButton.on("click", function(){
-	
 	updateStatus();
 	getEndpointsStatus();
 
@@ -181,7 +202,6 @@ alfredStartButton.on("click", function(){
 // Stop button actions
 
 alfredStopButton.on("click", function(){
-	
 	$.post(serviceAPI, '{"alter_service": "stop"}')
 	.done(function(data){
 		alfredStopButton.addClass("disabled")
@@ -197,7 +217,6 @@ alfredStopButton.on("click", function(){
 // Restart button actions
 
 alfredRestartButton.on("click", function(){
-	
 	$.post(serviceAPI, '{"alter_service": "restart"}')
 	.done(function(data){
 		updateStatus()
@@ -221,37 +240,29 @@ $.getJSON(serviceAPI, function(result){
 // Submit configuration form data
 
 function submitConfigForm() {
-
 	// Tetration config
 	var tetrationAPIPayload = '{"API_ENDPOINT": "' + $("#tetration-url").val() + '","VRF":"' +  $("#tetration-vrf").val()   + '","app_scope":"' + $("#tetration-app-scope").val() + '","api_key":"' + $("#tetration-api-key").val() + '","api_secret":"' + $("#tetration-api-secret").val() + '"}'
 	
 	$.post(tetrationAPI, tetrationAPIPayload)
 	.done(function(data){		
 	});
-	// console.log("submitted payload " + tetrationAPIPayload)
 
-		// Broker config
 		var brokerAPIPayload = '{"broker_ip": "' + $("#kafka-ip").val() + '","broker_port":"' +  $("#kafka-port").val()   + '","topic":"' + $("#kafka-topic").val()  + '"}'
 
 		$.post(brokerAPI, brokerAPIPayload)
 		.done(function(data){		
 		});
-	// console.log("submitted payload " + brokerAPIPayload)
 
-		// APIC config
 		var apicAPIPayload = '{"apic_ip": "' + $("#apic-endpoint").val() + '","apic_port":"' +  $("#apic-port").val()   + '","apic_user":"' + $("#apic-user").val()  + '","apic_password":"' + $("#apic-password").val() + '"}'
 
 		$.post(apicAPI, apicAPIPayload)
 		.done(function(data){		
 		});
-	// console.log("submitted payload " + apicAPIPayload)
-
 }
 
 // Confirm submit modal
 
 submitConfirm.on("click", function(){
-	
 	submitConfirm.button("loading");
 	submitConfigForm();
 	startAlfred();
@@ -259,4 +270,5 @@ submitConfirm.on("click", function(){
 	submitModal.modal("hide");
 	$("#operate-tab").removeClass("hide");
 });
+
 
