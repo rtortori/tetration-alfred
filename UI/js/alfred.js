@@ -153,9 +153,9 @@ function updateLogs(){
     var klogs = $.get(kafkaLogsAPI)
     var acilogs = $.get(aciAnnotationsLogsAPI)
     .done(function(){
-    alfredLogsOutput.append(alogs.responseText);
-    kafkaLogsOutput.append(klogs.responseText);
-    aciLogsOutput.append(acilogs.responseText);      
+    alfredLogsOutput.html(alogs.responseText);
+    kafkaLogsOutput.html(klogs.responseText);
+    aciLogsOutput.html(acilogs.responseText);      
     })
 };
 

@@ -64,10 +64,10 @@ consumer = KafkaConsumer('{}'.format(topic),
                          value_deserializer=json.loads)
 
 log('alfred','info','Kafka Consumer initialized')
-log('kafka','info','Kafka Consumer initialized')
-log('kafka','info','Kafka Consumer topic: {}'.format(topic))
-log('kafka','info','Kafka Consumer brokers: {}'.format(brokers))
-log('kafka','info','Kafka Consumer config: {}'.format(consumer.config))
+log('alfred','info','Kafka Consumer initialized')
+log('alfred','info','Kafka Consumer topic: {}'.format(topic))
+log('alfred','info','Kafka Consumer brokers: {}'.format(brokers))
+log('alfred','info','Kafka Consumer config: {}'.format(consumer.config))
 
 # Debug
 if debug_mode:
