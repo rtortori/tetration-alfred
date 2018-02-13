@@ -1,6 +1,7 @@
 from flask import request, Flask, jsonify, abort, make_response
 import json
 import os
+from alfred_utils import email
 
 # Define the path of python3 and tetration_alfred.py
 python_executable = '/usr/bin/python3.6'
@@ -62,11 +63,20 @@ def not_found(error):
 @alfred_api.route('/api/v1/apic', methods=['GET'])
 def get_apic_cfg():
     try:
+        alfred_config = json.load(open('alfred_configuration.json'))
         apic_config = json.load(open('apic_data.json'))
+
+        apic_config_full = {
+            "aci_annotations_enabled": alfred_config['aci_annotations_enabled'],
+            "apic_ip": apic_config["apic_ip"],
+            "apic_port": apic_config["apic_port"],
+            "apic_user": apic_config["apic_user"],
+            "apic_password": apic_config["apic_password"]
+        }
     except Exception:
-        print("Couldn't load the apic_config.json file")
+        print("Couldn't load the configuration files")
         abort(404)
-    return jsonify(apic_config)
+    return jsonify(apic_config_full)
 
 # REST API - GET current Kafka broker configuration
 @alfred_api.route('/api/v1/broker', methods=['GET'])
@@ -105,6 +115,26 @@ def get_tetration_cfg():
         print("Couldn't load configuration file")
         abort(404)
     return jsonify(tetration_config)
+
+# REST API - GET current Mailer configuration
+@alfred_api.route('/api/v1/mailer', methods=['GET'])
+def get_mailer_cfg():
+    try:
+        alfred_config = json.load(open('alfred_configuration.json'))
+        mailer_config = {
+            "mail_server_enabled": alfred_config['mail_server_enabled'],
+            "mail_server_address": alfred_config["mail_server_address"],
+            "mail_server_proto": alfred_config["mail_server_proto"],
+            "mail_server_auth": alfred_config["mail_server_auth"],
+            "mail_server_user": alfred_config["mail_server_user"],
+            "mail_server_password": alfred_config["mail_server_password"],
+            "mail_server_sender": alfred_config["mail_server_sender"],
+            "mail_server_recipient": alfred_config["mail_server_recipient"]
+        }
+    except Exception:
+        print("Couldn't load configuration file")
+        abort(404)
+    return jsonify(mailer_config)
 
 # REST API - GET service status
 @alfred_api.route('/api/v1/service', methods=['GET'])
@@ -263,7 +293,6 @@ def alter_service():
 
     if request.json['alter_service'] == 'start':
         try:
-            # TODO you shouldn't be able to start a service already up
             alfred_alter_service('start')
             service_altered['alfred_service'] = 'started'
         except Exception:
@@ -271,7 +300,6 @@ def alter_service():
 
     elif request.json['alter_service'] == 'stop':
         try:
-            # TODO service must be alive to be stopped
             alfred_alter_service('stop')
             service_altered['alfred_service'] = 'stopped'
         except Exception:
@@ -279,7 +307,6 @@ def alter_service():
 
     elif request.json['alter_service'] == 'restart':
         try:
-            # TODO check if restart of a stopped service does work
             alfred_alter_service('restart')
             service_altered['alfred_service'] = 'restarted'
         except Exception:
@@ -287,6 +314,42 @@ def alter_service():
 
 
     return jsonify(service_altered)
+
+# REST API - POST Mailer configuration
+@alfred_api.route('/api/v1/mailer', methods=['POST'])
+def create_mailer_cfg():
+    if not request.json or not 'mail_server_address' in request.json:
+        abort(400)
+
+    # Load current Alfred config
+    alfred_config = json.load(open('alfred_configuration.json'))
+
+    # Fill the dict with POST payload
+    mailer_config = {
+        "mail_server_address": request.json["mail_server_address"],
+        "mail_server_proto": request.json["mail_server_proto"],
+        "mail_server_auth": request.json["mail_server_auth"],
+        "mail_server_user": request.json["mail_server_user"],
+        "mail_server_password": request.json["mail_server_password"],
+        "mail_server_sender": request.json["mail_server_sender"],
+        "mail_server_recipient": request.json["mail_server_recipient"],
+        "mail_server_enabled": request.json["mail_server_enabled"],
+    }
+
+    with open('alfred_configuration.json', 'w') as f1:
+        # Replace values in Alfred config
+        alfred_config['mail_server_address'] = mailer_config['mail_server_address']
+        alfred_config['mail_server_proto'] = mailer_config['mail_server_proto']
+        alfred_config['mail_server_auth'] = mailer_config['mail_server_auth']
+        alfred_config['mail_server_user'] = mailer_config['mail_server_user']
+        alfred_config['mail_server_password'] = mailer_config['mail_server_password']
+        alfred_config['mail_server_sender'] = mailer_config['mail_server_sender']
+        alfred_config['mail_server_recipient'] = mailer_config['mail_server_recipient']
+        alfred_config['mail_server_enabled'] = mailer_config['mail_server_enabled']
+        json.dump(alfred_config, f1, indent=4, sort_keys=True)
+
+    return jsonify(mailer_config), 201
+
 
 if __name__ == '__main__':
     alfred_api.run(host='0.0.0.0', debug=True)

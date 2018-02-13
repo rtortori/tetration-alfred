@@ -401,22 +401,34 @@
                         </div>
                         <div class="tab-content">
                             <div class="container-fluid tab-pane active" id="alfred-logs">
-                                <pre id="alfred-logs-pre">
-                                </pre>                                     
+                                <div class="container-fluid col-md-9"> 
+                                <pre id="alfred-logs-pre">Loading Content...
+                                </pre> 
+                                </div>                                    
                             </div>
                             <div class="container-fluid tab-pane" id="kafka-logs">
-                                <pre id="kafka-logs-pre">
-                                </pre>  
+                                <div class="container-fluid col-md-9">
+                                    <table class="table table-bordered">
+                                        <tbody id="table-kafka-logs">
+                                        </tbody>
+                                    </table>
+                                </div>                           
                             </div>
                             <div class="container-fluid tab-pane" id="aci-annotations-logs">
-                                <pre id="aci-annotations-logs-pre">
-                                </pre>  
+                                <div class="container-fluid col-md-9">
+                                <pre id="aci-annotations-logs-pre">Loading Content...
+                                </pre>
+                                </div>                            
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End of Monitor tab -->
+
+
+
+
         </div>
     </div>
     <!-- end  of Div to hide everything in case API is unreachable -->

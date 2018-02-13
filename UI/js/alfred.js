@@ -10,6 +10,7 @@ alfred.js
 $(window).on('load',function(){
 	updateStatus();	
 	getEndpointsStatus();
+    updateLogs();
 	$('#welcomeModal').modal('show');
 });
 
@@ -60,6 +61,8 @@ var alfredRestartButton = $("#alfredRestart");
 var alfredLogsOutput = $("#alfred-logs-pre");
 var kafkaLogsOutput = $("#kafka-logs-pre");
 var aciLogsOutput = $("#aci-annotations-logs-pre");
+
+var tableKafkaLogs =  $("#table-kafka-logs");
 
 
 // Get Alfred Status function
@@ -149,14 +152,30 @@ function updateConnectButtons(){
 
 // Update Alfred, Kakfa and ACI Annotations logs
 function updateLogs(){
-    var alogs = $.get(alfredLogsAPI)
-    var klogs = $.get(kafkaLogsAPI)
-    var acilogs = $.get(aciAnnotationsLogsAPI)
-    .done(function(){
-    alfredLogsOutput.html(alogs.responseText);
-    kafkaLogsOutput.html(klogs.responseText);
-    aciLogsOutput.html(acilogs.responseText);      
-    })
+    tableKafkaLogs.empty();
+	var alogs = $.get(alfredLogsAPI)
+	var klogs = $.get(kafkaLogsAPI)
+	var acilogs = $.get(aciAnnotationsLogsAPI)
+	.done(function(){
+	alfredLogsOutput.html(alogs.responseText);
+    //kafkaLogsOutput.html(klogs.responseText);
+    aciLogsOutput.html(acilogs.responseText);
+
+    // Test: Store logs into table entries
+    var klogstext = klogs.responseText;
+    var lines = klogstext.split('\n');
+    for(var i = 0;i < lines.length;i++){
+    	var tabEntry = $("<tr><td>" + lines[i] + "</td></tr>");
+
+    	tabEntry.hover(function() {
+    	 	$(this).css("background-color", "#f2f2f2");
+    	 }, function() {
+    	 	$(this).css("background-color", "transparent");
+    	 });
+
+    	tableKafkaLogs.append(tabEntry)
+    }  
+})
 };
 
 
@@ -180,7 +199,7 @@ setInterval(function() {
 }, 10000);
 
 setInterval(function() {
-    updateLogs();
+	updateLogs();
 }, 30000);
 
 // Refresh button action
@@ -247,17 +266,17 @@ function submitConfigForm() {
 	.done(function(data){		
 	});
 
-		var brokerAPIPayload = '{"broker_ip": "' + $("#kafka-ip").val() + '","broker_port":"' +  $("#kafka-port").val()   + '","topic":"' + $("#kafka-topic").val()  + '"}'
+	var brokerAPIPayload = '{"broker_ip": "' + $("#kafka-ip").val() + '","broker_port":"' +  $("#kafka-port").val()   + '","topic":"' + $("#kafka-topic").val()  + '"}'
 
-		$.post(brokerAPI, brokerAPIPayload)
-		.done(function(data){		
-		});
+	$.post(brokerAPI, brokerAPIPayload)
+	.done(function(data){		
+	});
 
-		var apicAPIPayload = '{"apic_ip": "' + $("#apic-endpoint").val() + '","apic_port":"' +  $("#apic-port").val()   + '","apic_user":"' + $("#apic-user").val()  + '","apic_password":"' + $("#apic-password").val() + '"}'
+	var apicAPIPayload = '{"apic_ip": "' + $("#apic-endpoint").val() + '","apic_port":"' +  $("#apic-port").val()   + '","apic_user":"' + $("#apic-user").val()  + '","apic_password":"' + $("#apic-password").val() + '"}'
 
-		$.post(apicAPI, apicAPIPayload)
-		.done(function(data){		
-		});
+	$.post(apicAPI, apicAPIPayload)
+	.done(function(data){		
+	});
 }
 
 // Confirm submit modal

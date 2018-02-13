@@ -5,6 +5,9 @@ import csv
 import tetpyclient
 import logging
 from tetpyclient import RestClient
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # Enable or disable debugging
 debug_mode = True
@@ -139,3 +142,38 @@ def write_to_log(feature, facility, message):
     elif facility == 'critical':
         print('facility is critical')
         logger.critical(message)
+
+# Send email
+def email(subject, body):
+    # Open the global configuration file
+    try:
+        configuration = json.load(open('alfred_configuration_temp.json'))
+    except Exception:
+        exit(1)
+
+    if configuration['mail_server_proto'] == 'smtp':
+        server_port = 25
+    elif configuration['mail_server_proto'] == 'smtptls':
+        server_port = 587
+    else:
+        print('Unsupported mail protocol')
+        exit(1)
+
+    server = smtplib.SMTP(configuration['mail_server_address'], server_port)
+    msg = MIMEMultipart()
+    msg['From'] = configuration['mail_server_sender']
+    msg['To'] = configuration['mail_server_recipient']
+    msg['Subject'] = subject
+    body = body
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    if configuration['mail_server_auth'] == 'yes':
+        server.ehlo()
+        if server_port == 587:
+            server.starttls()
+        server.ehlo()
+        server.login(configuration['mail_server_user'], configuration['mail_server_password'])
+
+    text = msg.as_string()
+    server.sendmail(configuration['mail_server_sender'], configuration['mail_server_recipient'], text)
