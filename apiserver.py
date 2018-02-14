@@ -206,6 +206,8 @@ def create_apic_cfg():
     if not request.json or not 'apic_ip' in request.json:
         abort(400)
 
+    alfred_config = json.load(open('alfred_configuration.json'))
+
     # Fill the dict with POST payload
     apic_config = {
         "apic_ip": request.json["apic_ip"],
@@ -214,9 +216,15 @@ def create_apic_cfg():
         "apic_password": request.json["apic_password"]
     }
 
-    with open('apic_data.json', 'w') as f:
-        json.dump(request.json, f, indent=4, sort_keys=True)
-    return jsonify(apic_config), 201
+    with open('apic_data.json', 'w') as f1:
+        json.dump(apic_config, f1, indent=4, sort_keys=True)
+
+    with open('alfred_configuration.json', 'w') as f2:
+        alfred_config['aci_annotations_enabled'] = request.json['aci_annotations_enabled']
+        json.dump(alfred_config, f2, indent=4, sort_keys=True)
+
+    return_json = {**apic_config, **alfred_config}
+    return jsonify(return_json), 201
 
 # REST API - POST Kafka broker configuration
 @alfred_api.route('/api/v1/broker', methods=['POST'])
@@ -349,6 +357,17 @@ def create_mailer_cfg():
         json.dump(alfred_config, f1, indent=4, sort_keys=True)
 
     return jsonify(mailer_config), 201
+
+# REST API - POST Send Test Email
+@alfred_api.route('/api/v1/mailtest', methods=['POST'])
+def create_mail_test():
+    if not request.json or not 'mail_body' in request.json:
+        abort(400)
+
+    email_subject = request.json['email_sub']
+    email_body = request.json['email_body']
+    email(email_subject,email_body)
+    return jsonify(request.json), 201
 
 
 if __name__ == '__main__':

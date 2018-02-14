@@ -127,7 +127,7 @@
                                 </li>
                                 <li><a data-toggle="pill" href="#kafka-config"> Kafka Broker Config</a></li>
                                 <li><a data-toggle="pill" href="#aci-config"> ACI Config</a></li>
-                                <li class="disabled"><a data-toggle="pill" href="#mail-config"> Mail Server Config</a></li>
+                                <li><a data-toggle="pill" href="#mail-config"> Mail Server Config</a></li>
                             </ul>
                             <div class="container-fluid" id="submit-btn">
                                 <a href="#submitModal" role="button" class="btn btn-primary" data-toggle="modal">
@@ -227,6 +227,12 @@
                                 <form id="aciConfigForm">
                                     <div class="col-md-4 col-md-offset-1 well">
                                         <div class="form-group">
+                                            <label for="apic-enabled">
+                                                <strong>Enabled</strong>
+                                            </label>
+                                            <input type="checkbox" class="checkbox" id="apic-enabled" checked="false">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="apic-endpoint">
                                                 <strong>APIC URL</strong>
                                             </label>
@@ -254,6 +260,64 @@
                                 </form>
                             </div>
                             <!-- End of APIC configuration form -->
+                            <!-- Mailer configuration form -->
+                            <div class="container-fluid tab-pane" id="mail-config">
+                                <form id="mailConfigForm">
+                                    <div class="col-md-4 col-md-offset-1 well">
+                                        <div class="form-group">
+                                            <label for="mail-server-enabled">
+                                                <strong>Enabled</strong>
+                                            </label>
+                                            <input type="checkbox" class="checkbox" id="mail-server-enabled" checked="false">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-address">
+                                                <strong>Mail Server Address</strong>
+                                            </label>
+                                            <input type="text" class="form-control" id="mail-server-address" placeholder="smtp.yourcompany.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-proto">Mail Server Protocol</label>
+                                            <select name="mail-server-proto" id="mail-server-proto">
+                                                <option selected>SMTP</option>
+                                                <option>SSL/TLS encrypted SMTP</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-auth">Mail Server Authentication</label>
+                                            <select name="mail-server-auth" id="mail-server-auth">
+                                                <option>Yes</option>
+                                                <option selected>No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-user">
+                                                <strong>Mail Server User</strong>
+                                            </label>
+                                            <input type="text" class="form-control" id="mail-server-user" placeholder="User">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-password">
+                                                <strong>Mail Server Password</strong>
+                                            </label>
+                                            <input type="password" class="form-control" id="mail-server-password" placeholder="Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-sender">
+                                                <strong>Mail Server Sender Address</strong>
+                                            </label>
+                                            <input type="email" class="form-control" id="mail-server-sender" placeholder="alfred@company.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-recipient">
+                                                <strong>Mail Server Destination Address</strong>
+                                            </label>
+                                            <input type="email" class="form-control" id="mail-server-recipient" placeholder="noc@company.com">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- End of Mailer configuration form -->
                         </div>
                     </div>
                     </form>
