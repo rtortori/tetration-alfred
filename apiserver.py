@@ -223,9 +223,7 @@ def create_apic_cfg():
         alfred_config['aci_annotations_enabled'] = request.json['aci_annotations_enabled']
         json.dump(alfred_config, f2, indent=4, sort_keys=True)
 
-    aci_annot_enabled_json = {alfred_config['aci_annotations_enabled']}
-    return_json = {**apic_config, **aci_annot_enabled_json}
-    return jsonify(return_json), 201
+    return jsonify(apic_config), 201
 
 # REST API - POST Kafka broker configuration
 @alfred_api.route('/api/v1/broker', methods=['POST'])
