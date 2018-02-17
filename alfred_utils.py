@@ -147,7 +147,7 @@ def write_to_log(feature, facility, message):
 def email(subject, body):
     # Open the global configuration file
     try:
-        configuration = json.load(open('alfred_configuration_temp.json'))
+        configuration = json.load(open('alfred_configuration.json'))
     except Exception:
         exit(1)
 
