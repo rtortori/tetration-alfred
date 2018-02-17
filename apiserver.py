@@ -40,11 +40,11 @@ def check_restapi_reachability(target):
     apic_host = str(apic_config['apic_ip']).split('/')[2]
 
     if target == 'tetration':
-        host_is_up = True if os.system("ping -c 1 " + tetration_host) is 0 else False
+        host_is_up = True if os.system("ping -c 1 -W1" + tetration_host) is 0 else False
         return host_is_up
 
     elif target == 'aci':
-        host_is_up = True if os.system("ping -c 1 " + apic_host) is 0 else False
+        host_is_up = True if os.system("ping -c 1 -W1" + apic_host) is 0 else False
         return host_is_up
 
 
