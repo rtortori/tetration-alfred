@@ -7,6 +7,7 @@ from kafka import KafkaConsumer
 # Import alfred utils
 import alfred_utils
 from alfred_utils import write_to_log as log
+from alfred_utils import email as email
 
 log('alfred','info','Alfred started')
 
@@ -154,6 +155,22 @@ while True:
                 if debug_mode:
                     print('Done!')
 
+            elif query_type == 'dump_to_email':
+                log('alfred', 'debug', 'New incoming Alarm. Forwarding message to mail server')
+
+                consumer.poll()
+
+                try:
+                    email('Tetration Alfred Alarm System',payload)
+
+                except Exception:
+                    if debug_mode:
+                        print('An Error occurred when sending email')
+                    log('alfred', 'error', 'An Error occurred when sending email')
+                    pass
+
+                if debug_mode:
+                    print('Done!')
         # If the message is not properly formatted we will just ignore it
         except Exception:
             if debug_mode:
