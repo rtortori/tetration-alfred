@@ -100,7 +100,7 @@
                         <a data-toggle="tab" href="#Configure" id="configure-tab">Configure</a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#Operate" class="hide" id="operate-tab">Operate</a>
+                        <a data-toggle="tab" href="#Operate" class="" id="operate-tab">Operate</a>
                     </li>
                     <li>
                         <a data-toggle="tab" href="#Monitor" class="hide" id="monitor-tab">Monitor</a>
@@ -123,11 +123,11 @@
                         <div class="col-md-2">
                             <ul class="nav nav-pills nav-stacked">
                                 <li class="active">
-                                    <a data-toggle="pill" href="#tetration-config"> Tetration Cluster Config</a>
+                                    <a data-toggle="pill" href="#tetration-config"> Tetration API Access</a>
                                 </li>
-                                <li><a data-toggle="pill" href="#kafka-config"> Kafka Broker Config</a></li>
-                                <li><a data-toggle="pill" href="#aci-config"> ACI Config</a></li>
-                                <li><a data-toggle="pill" href="#mail-config"> Mail Server Config</a></li>
+                                <li><a data-toggle="pill" href="#kafka-config"> Kafka Broker</a></li>
+                                <li><a data-toggle="pill" href="#aci-config"> ACI Annotations</a></li>
+                                <li><a data-toggle="pill" href="#mail-config"> Mail Server</a></li>
                             </ul>
                             <div class="container-fluid" id="submit-btn">
                                 <a href="#submitModal" role="button" class="btn btn-primary" data-toggle="modal">
@@ -166,7 +166,7 @@
                                             <label for="tetration-url">
                                                 <strong>Tetration Cluster URL</strong>
                                             </label>
-                                            <input required type="url" class="form-control" id="tetration-url" placeholder="https://mycluster.cisco.com">
+                                            <input required type="url" class="form-control" id="tetration-url" placeholder="https://mycluster.cisco.com"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="tetration-api-key">
@@ -179,18 +179,6 @@
                                                 <strong>Tetration Cluster Secret Key</strong>
                                             </label>
                                             <input required type="password" class="form-control" id="tetration-api-secret" placeholder="API Secret">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tetration-vrf">
-                                                <strong>Tetration Application VRF (for asset annotations)</strong>
-                                            </label>
-                                            <input required type="text" class="form-control" id="tetration-vrf" placeholder="VRF">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tetration-app-scope">
-                                                <strong>Tetration Application Scope (for asset annotations)</strong>
-                                            </label>
-                                            <input required type="text" class="form-control" id="tetration-app-scope" placeholder="Application Scope">
                                         </div>
                                     </div>
                                 </form>
@@ -227,16 +215,10 @@
                                 <form id="aciConfigForm">
                                     <div class="col-md-4 col-md-offset-1 well">
                                         <div class="form-group">
-                                            <label for="apic-enabled">
-                                                <strong>Enabled</strong>
-                                            </label>
-                                            <input type="checkbox" class="checkbox" id="apic-enabled" checked="false">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="apic-endpoint">
+                                            <label for="apic-endpoint" class="apic-toggle">
                                                 <strong>APIC URL</strong>
                                             </label>
-                                            <input type="url" class="form-control" id="apic-endpoint" placeholder="https://myapic.cisco.com">
+                                            <input type="url" class="form-control apic-toggle" id="apic-endpoint" placeholder="https://myapic.cisco.com">
                                         </div>
                                         <div class="form-group">
                                             <label for="apic-port">
@@ -256,6 +238,18 @@
                                             </label>
                                             <input type="password" class="form-control" id="apic-password" placeholder="Password">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="tetration-vrf">
+                                                <strong>Tetration Application VRF (for asset annotations)</strong>
+                                            </label>
+                                            <input required type="text" class="form-control" id="tetration-vrf" placeholder="VRF">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tetration-app-scope">
+                                                <strong>Tetration Application Scope (for asset annotations)</strong>
+                                            </label>
+                                            <input required type="text" class="form-control" id="tetration-app-scope" placeholder="Application Scope">
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -265,42 +259,18 @@
                                 <form id="mailConfigForm">
                                     <div class="col-md-4 col-md-offset-1 well">
                                         <div class="form-group">
-                                            <label for="mail-server-enabled">
-                                                <strong>Enabled</strong>
-                                            </label>
-                                            <input type="checkbox" class="checkbox" id="mail-server-enabled" checked="false">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="mail-server-address">
-                                                <strong>Mail Server Address</strong>
-                                            </label>
-                                            <input type="text" class="form-control" id="mail-server-address" placeholder="smtp.yourcompany.com">
-                                        </div>
-                                        <div class="form-group">
                                             <label for="mail-server-proto">Mail Server Protocol</label>
+                                            <br>
                                             <select name="mail-server-proto" id="mail-server-proto">
                                                 <option selected>SMTP</option>
                                                 <option>SSL/TLS encrypted SMTP</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="mail-server-auth">Mail Server Authentication</label>
-                                            <select name="mail-server-auth" id="mail-server-auth">
-                                                <option>Yes</option>
-                                                <option selected>No</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="mail-server-user">
-                                                <strong>Mail Server User</strong>
+                                            <label for="mail-server-address">
+                                                <strong>Mail Server Address</strong>
                                             </label>
-                                            <input type="text" class="form-control" id="mail-server-user" placeholder="User">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="mail-server-password">
-                                                <strong>Mail Server Password</strong>
-                                            </label>
-                                            <input type="password" class="form-control" id="mail-server-password" placeholder="Password">
+                                            <input type="text" class="form-control" id="mail-server-address" placeholder="smtp.yourcompany.com">
                                         </div>
                                         <div class="form-group">
                                             <label for="mail-server-sender">
@@ -313,6 +283,29 @@
                                                 <strong>Mail Server Destination Address</strong>
                                             </label>
                                             <input type="email" class="form-control" id="mail-server-recipient" placeholder="noc@company.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="mail-server-auth">Mail Server Authentication</label>
+                                            <br>
+                                            <select name="mail-server-auth" id="mail-server-auth" onchange="hideForms()">
+                                                <option>Yes</option>
+                                                <option selected>No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mail-server-auth-class hide">
+                                            <label for="mail-server-user">
+                                                <strong>Mail Server User</strong>
+                                            </label>
+                                            <input type="text" class="form-control" id="mail-server-user" placeholder="User">
+                                        </div>
+                                        <div class="form-group mail-server-auth-class hide">
+                                            <label for="mail-server-password">
+                                                <strong>Mail Server Password</strong>
+                                            </label>
+                                            <input type="password" class="form-control" id="mail-server-password" placeholder="Password">
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-primary" onclick="testEmail()">Send a Test Email</button>
                                         </div>
                                     </div>
                                 </form>
@@ -344,8 +337,8 @@
                                 <th scope="row">Alfred</th>
                                 <td align="center">
                                     <h5>
-                                        <span class="label" id="alfred-status-label">
-                                            <span uk-icon="icon: check; ratio: 0.5">
+                                        <span class="label label-danger" id="alfred-status-label">
+                                            <span uk-icon="icon: ban; ratio: 0.5">
                                                 Unknown
                                             </span>
                                         </span>
@@ -367,42 +360,38 @@
                                 <th scope="row">ACI Annotations</th>
                                 <td align="center">
                                     <h5>
-                                        <span class="label label-success">
-                                            <span uk-icon="icon: check; ratio: 0.5">
-                                                Available
+                                        <span class="label label-danger" id="label-aci-availability">
+                                            <span uk-icon="icon: ban; ratio: 0.5">
+                                                Unknown
                                             </span>
                                         </span>
                                     </h5>
                                 </td>
                                 <td align="center">
-                                    <button type="button" class="btn btn-success btn-sm" disabled>
-                                        Enabled
-                                    </button>
+                                    <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" id="enable-apic-toggle">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Email alerts</th>
                                 <td align="center">
                                     <h5>
-                                        <span class="label label-danger">
+                                        <span class="label label-danger" id="label-mail-availability">
                                             <span uk-icon="icon: ban; ratio: 0.5">
-                                                Unavailable
+                                                Unknown
                                             </span>
                                         </span>
                                     </h5>
                                 </td>
                                 <td align="center">
-                                    <button type="button" class="btn btn-danger btn-sm" disabled>
-                                        Disabled
-                                    </button>
+                                    <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" id="enable-mail-toggle">
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">Tetration Analytics</th>
                                 <td align="center">
                                     <h5>
-                                        <span class="label" id="tetration-status-label">
-                                            <span uk-icon="icon: check; ratio: 0.5">
+                                        <span class="label label-danger" id="tetration-status-label">
+                                            <span uk-icon="icon: ban; ratio: 0.5">
                                                 Unknown
                                             </span>
                                         </span>
@@ -422,8 +411,8 @@
                                 <th scope="row">Cisco APIC</th>
                                 <td align="center">
                                     <h5>
-                                        <span class="label" id="apic-status-label">
-                                            <span uk-icon="icon: check; ratio: 0.5">
+                                        <span class="label label-danger" id="apic-status-label">
+                                            <span uk-icon="icon: ban; ratio: 0.5">
                                                 Unknown
                                             </span>
                                         </span>

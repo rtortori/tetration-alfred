@@ -10,6 +10,7 @@ alfred.js
 $(window).on('load',function(){
 	updateStatus();	
 	getEndpointsStatus();
+    updateOptServicesStatus();
     updateLogs();
 	$('#welcomeModal').modal('show');
 });
@@ -23,7 +24,7 @@ $.ajaxSetup({
 // Set variable to point to the right API server
 // var alfredEndpoint = location.hostname;
 // Temporary set alfredEndpoint to point to an external API server
-var alfredEndpoint = "10.58.16.91"
+var alfredEndpoint = "192.168.245.136";
 
 // API Server endpoints
 var serviceAPI = "http://" + alfredEndpoint + ":5000/api/v1/service"
@@ -34,6 +35,8 @@ var endpointAPI = "http://" + alfredEndpoint + ":5000/api/v1/endpoints"
 var alfredLogsAPI = "http://" + alfredEndpoint + ":5000/api/v1/alfred-logs"
 var kafkaLogsAPI = "http://" + alfredEndpoint + ":5000/api/v1/kafka-logs"
 var aciAnnotationsLogsAPI = "http://" + alfredEndpoint + ":5000/api/v1/aci-annotations-logs"
+var mailerAPI = "http://" + alfredEndpoint + ":5000/api/v1/mailer"
+var mailTestAPI = "http://" + alfredEndpoint + ":5000/api/v1/mailtest"
 
 // Buttons variables
 var refreshStatusButton = $("#refresh-status-button");
@@ -58,11 +61,14 @@ var alfredStartButton = $("#alfredStart");
 var alfredStopButton = $("#alfredStop");
 var alfredRestartButton = $("#alfredRestart");
 
+// Log vars
 var alfredLogsOutput = $("#alfred-logs-pre");
 var kafkaLogsOutput = $("#kafka-logs-pre");
 var aciLogsOutput = $("#aci-annotations-logs-pre");
-
 var tableKafkaLogs =  $("#table-kafka-logs");
+
+// Checkbox
+//var apicEnabled = $("#apic-enabled");
 
 
 // Get Alfred Status function
@@ -83,7 +89,7 @@ function updateStatus(){
 			// or if the service is up (which can be only if configuration has been submitted in the past)
 			// This fixes the issue where operate tab is hidden if user reloads the page
 			updateConnectButtons();
-			$("#operate-tab").removeClass("hide")
+			//$("#operate-tab").removeClass("hide")
 		} else {
 			alfredStatusLabel.html("<span uk-icon='icon: ban; ratio: 0.5'>Down</span>")
 			alfredStatusLabel.removeClass("label-success")
@@ -191,6 +197,15 @@ function startAlfred(){
 
 }
 
+// Test Email
+
+function testEmail(){
+    $.post(mailTestAPI, '{"email_sub": "Alfred Test Email", "email_body": "Welcome!"}')
+    .done(function(data){
+    });
+
+}
+
 // Fetch services status every minute (30s)
 
 setInterval(function() {
@@ -272,22 +287,186 @@ function submitConfigForm() {
 	.done(function(data){		
 	});
 
-	var apicAPIPayload = '{"apic_ip": "' + $("#apic-endpoint").val() + '","apic_port":"' +  $("#apic-port").val()   + '","apic_user":"' + $("#apic-user").val()  + '","apic_password":"' + $("#apic-password").val() + '"}'
+	var apicAPIPayload = '{"apic_ip": "' + $("#apic-endpoint").val() + '","aci_annotations_enabled": ' + true + ',"apic_port":"' +  $("#apic-port").val()   + '","apic_user":"' + $("#apic-user").val()  + '","apic_password":"' + $("#apic-password").val() + '"}'
 
 	$.post(apicAPI, apicAPIPayload)
 	.done(function(data){		
 	});
+
+    // Preliminary checks to build the Mailer payload
+    var mailServerProto;
+    if ($("#mail-server-proto").val() == "SMTP") {
+        mailServerProto = "smtp";
+    }
+    else {
+        mailServerProto = "smtptls";
+    }
+
+    var mailServerAuth;
+    if ($("#mail-server-auth").val() == "No"){
+        mailServerAuth = "no";
+    }
+    else {
+        mailServerAuth = "yes";
+    }
+
+    var mailerAPIPayload = '{"mail_server_address": "' + $("#mail-server-address").val() + '","mail_server_enabled": ' + true + ',"mail_server_proto":"' + mailServerProto + '","mail_server_auth":"' + mailServerAuth + '","mail_server_user":"' + $("#mail-server-user").val() + '","mail_server_password":"' + $("#mail-server-password").val() + '","mail_server_sender":"' + $("#mail-server-sender").val()  + '","mail_server_recipient":"' + $("#mail-server-recipient").val() + '"}'
+
+    $.post(mailerAPI, mailerAPIPayload)
+    .done(function(data){       
+    });
+
+}
+
+
+// Function to check optional services availability (APIC Annotations, Mailer)
+
+function updateOptServicesStatus(){
+    $.getJSON(mailerAPI)
+    .done(function(result){
+        var mailerEnabledStatus = result.mail_server_enabled
+        if (mailerEnabledStatus == true) {
+            // update status on ui
+            $("#enable-mail-toggle").bootstrapToggle('on')
+            $("#label-mail-availability").removeClass('label-danger')
+            $("#label-mail-availability").addClass('label-success')
+            $("#label-mail-availability").html('<span uk-icon="icon: check; ratio: 0.5">Available </span>')
+            // enable configuration part
+
+        } else {
+            // update status on UI
+            $("#enable-mail-toggle").bootstrapToggle('off')
+            $("#label-mail-availability").removeClass('label-success')
+            $("#label-mail-availability").addClass('label-danger')
+            $("#label-mail-availability").html('<span uk-icon="icon: ban; ratio: 0.5">Unavailable</span>')
+            //disable configuration part
+
+        }
+        // do things
+    })  .fail(function(r){
+        // do failure things
+    });
+
+    $.getJSON(apicAPI)
+    .done(function(result){
+        var apicEnabledStatus = result.aci_annotations_enabled
+        if (apicEnabledStatus == true) {
+            // update status on ui
+            $("#enable-apic-toggle").bootstrapToggle('on')
+            $("#label-aci-availability").removeClass('label-danger')
+            $("#label-aci-availability").addClass('label-success')
+            $("#label-aci-availability").html('<span uk-icon="icon: check; ratio: 0.5">Available </span>')
+            // enable config part
+
+        } else {
+            // update status on UI
+            $("#enable-apic-toggle").bootstrapToggle('off')
+            $("#label-aci-availability").removeClass('label-success')
+            $("#label-aci-availability").addClass('label-danger')
+            $("#label-aci-availability").html('<span uk-icon="icon: ban; ratio: 0.5">Unavailable</span>')
+            //disable config part
+
+        }
+        // do other things
+    })  .fail(function(r){
+        // do failure things
+    });
 }
 
 // Confirm submit modal
 
 submitConfirm.on("click", function(){
-	submitConfirm.button("loading");
+	submitConfirm.button("Configuring");
 	submitConfigForm();
 	startAlfred();
 	updateConnectButtons();
 	submitModal.modal("hide");
-	$("#operate-tab").removeClass("hide");
+	//$("#operate-tab").removeClass("hide");
 });
 
+// Service toggle switch actions
 
+$(function() {
+    $('#enable-apic-toggle').change(function() {
+      // Disable ACI annotation via API
+        if ($(this).prop('checked')) {
+            $.getJSON(apicAPI, function(result){
+                if (result.aci_annotations_enabled == false) {
+                    result.aci_annotations_enabled = true;
+                    var apicFullConfig = JSON.stringify(result);
+                    // Reinject modified JSON
+                    $.post(apicAPI, apicFullConfig)
+                        .done(function(){
+                        console.log('APIC Enabled')
+                        updateOptServicesStatus();
+                        });
+                    }
+                })
+        }
+        else {
+            $.getJSON(apicAPI, function(result){
+                if (result.aci_annotations_enabled == true) {
+                    result.aci_annotations_enabled = false;
+                    var apicFullConfig = JSON.stringify(result);
+                    // Reinject modified JSON
+                    $.post(apicAPI, apicFullConfig)
+                        .done(function(){
+                        console.log('APIC Disabled')
+                        updateOptServicesStatus();
+                        });
+                    }
+                })
+        }
+      
+    })
+
+    $('#enable-mail-toggle').change(function() {
+      // Disable Mailer config via API
+        if ($(this).prop('checked')) {
+            $.getJSON(mailerAPI, function(result){
+                console.log("previous mailer config" + JSON.stringify(result))
+                if (result.mail_server_enabled == false) {
+                    result.mail_server_enabled = true;
+                    var mailerFullConfig = JSON.stringify(result);
+                    console.log("after mailer config" + mailerFullConfig)
+                    // Reinject modified JSON
+                    $.post(mailerAPI, mailerFullConfig)
+                        .done(function(){
+                        console.log('Mailer Enabled')
+                        updateOptServicesStatus();
+                        });
+                    }
+                })
+        }
+        else {
+            $.getJSON(mailerAPI, function(result){
+                console.log("previous mailer config" + JSON.stringify(result))
+                if (result.mail_server_enabled == true) {
+                    result.mail_server_enabled = false;
+                    var mailerFullConfig = JSON.stringify(result);
+                    console.log(mailerFullConfig)
+                    console.log("after mailer config" + mailerFullConfig)
+                    // Reinject modified JSON
+                    $.post(mailerAPI, mailerFullConfig)
+                        .done(function(){
+                        console.log('Mailer Disabled')
+                        updateOptServicesStatus();
+                        });
+                    }
+                })
+        }
+      
+    })
+
+  })
+
+// Config form toggle
+
+function hideForms(){
+    if ($("#mail-server-auth").val() == "No") {
+        $(".mail-server-auth-class").addClass('hide');
+    }
+    else {
+        $(".mail-server-auth-class").removeClass('hide');
+    }
+}
