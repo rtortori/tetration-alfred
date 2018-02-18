@@ -279,7 +279,7 @@ function submitConfigForm() {
 	$.post(tetrationAPI, tetrationAPIPayload)
 	.done(function(data){		
 	});
-
+    
 	var brokerAPIPayload = '{"broker_ip": "' + $("#kafka-ip").val() + '","broker_port":"' +  $("#kafka-port").val()   + '","topic":"' + $("#kafka-topic").val()  + '"}'
 
 	$.post(brokerAPI, brokerAPIPayload)
@@ -407,7 +407,6 @@ $(function() {
                     // Reinject modified JSON
                     $.post(apicAPI, apicFullConfig)
                         .done(function(){
-                        console.log('APIC Enabled')
                         updateOptServicesStatus();
                         });
                     }
@@ -422,7 +421,6 @@ $(function() {
                     // Reinject modified JSON
                     $.post(apicAPI, apicFullConfig)
                         .done(function(){
-                        console.log('APIC Disabled')
                         updateOptServicesStatus();
                         });
                     }
@@ -436,15 +434,12 @@ $(function() {
       // Disable Mailer config via API
         if ($(this).prop('checked')) {
             $.getJSON(mailerAPI, function(result){
-                console.log("previous mailer config" + JSON.stringify(result))
                 if (result.mail_server_enabled == false) {
                     result.mail_server_enabled = true;
                     var mailerFullConfig = JSON.stringify(result);
-                    console.log("after mailer config" + mailerFullConfig)
                     // Reinject modified JSON
                     $.post(mailerAPI, mailerFullConfig)
                         .done(function(){
-                        console.log('Mailer Enabled')
                         updateOptServicesStatus();
                         });
                     }
@@ -453,16 +448,12 @@ $(function() {
         }
         else {
             $.getJSON(mailerAPI, function(result){
-                console.log("previous mailer config" + JSON.stringify(result))
                 if (result.mail_server_enabled == true) {
                     result.mail_server_enabled = false;
                     var mailerFullConfig = JSON.stringify(result);
-                    console.log(mailerFullConfig)
-                    console.log("after mailer config" + mailerFullConfig)
                     // Reinject modified JSON
                     $.post(mailerAPI, mailerFullConfig)
                         .done(function(){
-                        console.log('Mailer Disabled')
                         updateOptServicesStatus();
                         });
                     }
