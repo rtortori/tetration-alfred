@@ -15,23 +15,28 @@
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <style>
 
-          #submit-btn {
-              margin-top: 50px;
-          }
-          #config_help_text, #service_table, #refresh-status-button {
-              margin-top: 10px;
-          }
-          .footer {
-              position: absolute;
-              bottom:  20px;
+              #submit-btn {
+                  margin-top: 50px;
+              }
+              #config_help_text, #service_table, #refresh-status-button {
+                  margin-top: 10px;
+              }
+              .footer {
+                  position: absolute;
+                  bottom:  20px;
 
-          }
-          .alert-api-unreachable {
-            position: absolute;
-            top: 90px;
-            left: 10px;
-            right: 10px;
-        }
+              }
+              .alert-api-unreachable {
+                position: absolute;
+                top: 90px;
+                left: 10px;
+                right: 10px;
+              }
+              #welcomeModalMain {
+                  width: auto;
+                  margin: auto;
+                }
+
 
     </style>
 </head>
@@ -41,7 +46,7 @@
 
     <!-- Welcome modal -->
     <div id="welcomeModal" class="modal fade">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document" id="welcomeModalMain">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -54,14 +59,15 @@
                         <p class="container lead">Disclaimer: This is <strong>NOT</strong> an official Cisco application and comes with absolute <strong>NO WARRANTY!</strong></p>
                         <div class="container">
                             <p class="row col-md-12"><h4>What is this?</h4></p>
-                            <p>Alfred is a Kafka consumer application that answers Cisco Tetration Analytics "questions".</p>
+                            <p>Alfred is a Kafka consumer application that take actions based on Cisco Tetration Analytics inputs.</p>
                             <p class="row col-md-12"><h4>What's in it for me?</h4></p>
-                            <p>Currently, Alfred supports only one question: asset annotations based on Cisco ACI endpoint tracker.<br>Coming soon: email notifications sent by Tetration User Apps.</p>
+                            <p>Alfred has been designed to be Tetration swiss army knife. Today, Alfred supports asset annotations based on Cisco ACI endpoint tracker and is capable to forward Tetration alarms via email.<br>A Kafka topic monitor is also available.</p>
                             <p class="row col-md-12"><h4>Usage</h4></p>
                             <p>
-                                In the "Configuration" tab, specify your Tetration, Kafka and APIC configuration.<br>
-                                Once done, click on the submit button and confirm. Alfred will start automatically.<br>
-                                The "Operate" tab will provide you a view on the current status as well as controls to alter Alfred services.<br> You can now move to Tetration and ask questions! Visit <a target="_blank" href="https://github.com/rtortori/tetration-alfred">Alfred Github page</a> to learn more and find sample user apps.</a>
+                                In the "Configuration" tab, enable the features you need, fill the data and submit.<br>
+                                Alfred will start automatically.<br>
+                                The "Operate" tab will provide you a view on the current status as well as controls to alter Alfred services.<br> You can now move to Tetration and ask questions! Visit <a target="_blank" href="https://github.com/rtortori/tetration-alfred">Alfred Github page</a> to learn more and find sample user apps.</a><br />
+                                <br /><strong>Tired of seeing this message? Plan is to support cookies so you will only have to see it once :)</strong>
                             </p>
                             </p>
                         </div>
