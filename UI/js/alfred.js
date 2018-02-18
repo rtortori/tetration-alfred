@@ -22,9 +22,9 @@ $.ajaxSetup({
 });
 
 // Set variable to point to the right API server
-// var alfredEndpoint = location.hostname;
+var alfredEndpoint = location.hostname;
 // Temporary set alfredEndpoint to point to an external API server
-var alfredEndpoint = "192.168.245.136";
+//var alfredEndpoint = "192.168.245.136";
 
 // API Server endpoints
 var serviceAPI = "http://" + alfredEndpoint + ":5000/api/v1/service"
