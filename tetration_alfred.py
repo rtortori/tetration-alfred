@@ -96,7 +96,7 @@ while True:
             if query_type == 'get_endpoint_detail':
                 log('alfred','debug','New incoming ACI annotation request for: {}'.format(payload))
                 # Tetration MUST pass the list of endpoints into a list
-                if configuration['aci_annotations_enabled'] == "True":
+                if configuration['aci_annotations_enabled'] == "true":
                     for item in payload:
                         # Debug
                         if debug_mode:
@@ -159,7 +159,7 @@ while True:
                     log('alfred', 'error', 'ACI Annotations is not enabled')
 
             elif query_type == 'dump_to_email':
-                if configuration['mail_server_enabled'] == "True":
+                if configuration['mail_server_enabled'] == "true":
                     log('alfred', 'debug', 'New incoming Alarm. Forwarding message to mail server')
 
                     consumer.poll()
