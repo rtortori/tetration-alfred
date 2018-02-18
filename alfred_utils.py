@@ -116,31 +116,23 @@ def setup_logger(name, logfile, level=logging.DEBUG):
 def write_to_log(feature, facility, message):
 
     if feature == 'alfred':
-        print('feature is alfred')
         logger = setup_logger('ALFRED', 'logs/alfred.log')
 
     elif feature == 'aci-annotations':
-        print('feature is aci')
         logger = setup_logger('ACI-ANNOTATIONS', 'logs/aci-annotations.log')
 
     elif feature == 'kafka':
-        print('feature is kafka')
         logger = setup_logger('KAFKA', 'logs/kafka.log')
 
     if facility == 'debug':
-        print('facility is debug')
         logger.debug(message)
     elif facility == 'info':
-        print('facility is info')
         logger.info(message)
     elif facility == 'warning':
-        print('facility is warning')
         logger.warning(message)
     elif facility == ('error'):
-        print('facility is error')
         logger.error(message)
     elif facility == 'critical':
-        print('facility is critical')
         logger.critical(message)
 
 # Send email
