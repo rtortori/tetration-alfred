@@ -115,20 +115,20 @@
                 <div class="tab-content">
                     <div class="container-fluid" id="config_help_text">
                         <div class="row-fluid col-md-8">
-                            <h6>Configure each section, submit the configuration, then start Alfred from the Operate tab</h6>
+                            <h6>Configure each section, then click on the Submit button. Alfred will start automatically</h6>
                         </div>
                     </div>
                     <!-- Configuration Block -->
                     <div class="row-fluid" id="configuration_block">
                         <div class="col-md-2">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li class="active">
-                                    <a data-toggle="pill" href="#tetration-config"> Tetration API Access</a>
-                                </li>
-                                <li><a data-toggle="pill" href="#kafka-config"> Kafka Broker</a></li>
-                                <li><a data-toggle="pill" href="#aci-config"> ACI Annotations</a></li>
-                                <li><a data-toggle="pill" href="#mail-config"> Mail Server</a></li>
-                            </ul>
+                                <div class="active">
+                                    <a data-toggle="pill" href="#alfred-config"></a>
+                                </div>
+                                <br />
+                            <table class="table">
+                                <tr><td>ACI annotations</td><td><input type="checkbox" data-on="Enabled" data-off="Disabled" checked data-toggle="toggle" data-onstyle="success" id="enable-apic-toggle"></td></tr>
+                                <tr><td>Email Alerts</td><td><input type="checkbox" data-on="Enabled" data-off="Disabled" checked data-toggle="toggle" data-onstyle="success" id="enable-mail-toggle"></td></tr>
+                            </table>
                             <div class="container-fluid" id="submit-btn">
                                 <a href="#submitModal" role="button" class="btn btn-primary" data-toggle="modal">
                                     Submit
@@ -158,8 +158,8 @@
                             </div>
                         </div>
                         <div class="tab-content">
-                            <!-- Tetration configuration form -->
-                            <div class="container-fluid tab-pane active" id="tetration-config">
+                            <!-- Alfred configuration form -->
+                            <div class="container-fluid tab-pane active" id="alfred-config">
                                 <form id="tetConfigForm">
                                     <div class="col-md-4 col-md-offset-1 well">
                                         <div class="form-group">
@@ -180,14 +180,6 @@
                                             </label>
                                             <input required type="password" class="form-control" id="tetration-api-secret" placeholder="API Secret">
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- End of Tetration configuration form -->
-                            <!-- Kafka configuration form -->
-                            <div class="container-fluid tab-pane" id="kafka-config">
-                                <form id="kafkaConfigForm">
-                                    <div class="col-md-4 col-md-offset-1 well">
                                         <div class="form-group">
                                             <label for="kafka-ip">
                                                 <strong>Kafka Broker IP</strong>
@@ -206,85 +198,69 @@
                                             </label>
                                             <input required type="text" class="form-control" id="kafka-topic" placeholder="tetration">
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- End of Kafka configuration form -->
-                            <!-- APIC configuration form -->
-                            <div class="container-fluid tab-pane" id="aci-config">
-                                <form id="aciConfigForm">
-                                    <div class="col-md-4 col-md-offset-1 well">
-                                        <div class="form-group">
+                                        <div class="form-group apic-configuration">
                                             <label for="apic-endpoint" class="apic-toggle">
                                                 <strong>APIC URL</strong>
                                             </label>
                                             <input type="url" class="form-control apic-toggle" id="apic-endpoint" placeholder="https://myapic.cisco.com">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group apic-configuration">
                                             <label for="apic-port">
                                                 <strong>APIC port</strong>
                                             </label>
                                             <input type="number" class="form-control" id="apic-port" placeholder="443">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group apic-configuration">
                                             <label for="apic-user">
                                                 <strong>APIC Username</strong>
                                             </label>
                                             <input type="text" class="form-control" id="apic-user" placeholder="Username">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group apic-configuration">
                                             <label for="apic-password">
                                                 <strong>APIC Password</strong>
                                             </label>
                                             <input type="password" class="form-control" id="apic-password" placeholder="Password">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group apic-configuration">
                                             <label for="tetration-vrf">
                                                 <strong>Tetration Application VRF (for asset annotations)</strong>
                                             </label>
                                             <input required type="text" class="form-control" id="tetration-vrf" placeholder="VRF">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group apic-configuration">
                                             <label for="tetration-app-scope">
                                                 <strong>Tetration Application Scope (for asset annotations)</strong>
                                             </label>
                                             <input required type="text" class="form-control" id="tetration-app-scope" placeholder="Application Scope">
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- End of APIC configuration form -->
-                            <!-- Mailer configuration form -->
-                            <div class="container-fluid tab-pane" id="mail-config">
-                                <form id="mailConfigForm">
-                                    <div class="col-md-4 col-md-offset-1 well">
                                         <div class="form-group">
-                                            <label for="mail-server-proto">Mail Server Protocol</label>
+                                            <label class="mail-configuration" for="mail-server-proto">Mail Server Protocol</label>
                                             <br>
-                                            <select name="mail-server-proto" id="mail-server-proto">
+                                            <select class="mail-configuration" name="mail-server-proto" id="mail-server-proto">
                                                 <option selected>SMTP</option>
                                                 <option>SSL/TLS encrypted SMTP</option>
                                             </select>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mail-configuration">
                                             <label for="mail-server-address">
                                                 <strong>Mail Server Address</strong>
                                             </label>
                                             <input type="text" class="form-control" id="mail-server-address" placeholder="smtp.yourcompany.com">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mail-configuration">
                                             <label for="mail-server-sender">
                                                 <strong>Mail Server Sender Address</strong>
                                             </label>
                                             <input type="email" class="form-control" id="mail-server-sender" placeholder="alfred@company.com">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mail-configuration">
                                             <label for="mail-server-recipient">
                                                 <strong>Mail Server Destination Address</strong>
                                             </label>
                                             <input type="email" class="form-control" id="mail-server-recipient" placeholder="noc@company.com">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group mail-configuration">
                                             <label for="mail-server-auth">Mail Server Authentication</label>
                                             <br>
                                             <select name="mail-server-auth" id="mail-server-auth" onchange="hideForms()">
@@ -292,25 +268,29 @@
                                                 <option selected>No</option>
                                             </select>
                                         </div>
-                                        <div class="form-group mail-server-auth-class hide">
-                                            <label for="mail-server-user">
-                                                <strong>Mail Server User</strong>
-                                            </label>
-                                            <input type="text" class="form-control" id="mail-server-user" placeholder="User">
+                                        <div class="mail-configuration">
+                                            <div class="form-group mail-server-auth-class hide">
+                                                <label for="mail-server-user">
+                                                    <strong>Mail Server User</strong>
+                                                </label>
+                                                <input type="text" class="form-control" id="mail-server-user" placeholder="User">
+                                            </div>
                                         </div>
-                                        <div class="form-group mail-server-auth-class hide">
-                                            <label for="mail-server-password">
-                                                <strong>Mail Server Password</strong>
-                                            </label>
-                                            <input type="password" class="form-control" id="mail-server-password" placeholder="Password">
+                                        <div class="mail-configuration">
+                                            <div class="form-group mail-server-auth-class hide">
+                                                <label for="mail-server-password">
+                                                    <strong>Mail Server Password</strong>
+                                                </label>
+                                                <input type="password" class="form-control" id="mail-server-password" placeholder="Password">
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button type="button" class="btn btn-primary" onclick="testEmail()">Send a Test Email</button>
+                                            <div>
+                                                <button type="button" class="btn btn-primary hide" onclick="testEmail()">Send a Test Email</button>
+                                            </div>
+
                                         </div>
-                                    </div>
                                 </form>
                             </div>
-                            <!-- End of Mailer configuration form -->
                         </div>
                     </div>
                     </form>
@@ -368,7 +348,7 @@
                                     </h5>
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" id="enable-apic-toggle">
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -383,7 +363,7 @@
                                     </h5>
                                 </td>
                                 <td align="center">
-                                    <input type="checkbox" checked data-toggle="toggle" data-onstyle="success" id="enable-mail-toggle">
+                                    
                                 </td>
                             </tr>
                             <tr>

@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 
 alfred.js
 
@@ -274,7 +274,6 @@ $.getJSON(serviceAPI, function(result){
 // Submit configuration form data
 
 function submitConfigForm() {
-	// Tetration config
 	var tetrationAPIPayload = '{"API_ENDPOINT": "' + $("#tetration-url").val() + '","VRF":"' +  $("#tetration-vrf").val()   + '","app_scope":"' + $("#tetration-app-scope").val() + '","api_key":"' + $("#tetration-api-key").val() + '","api_secret":"' + $("#tetration-api-secret").val() + '"}'
 	
 	$.post(tetrationAPI, tetrationAPIPayload)
@@ -287,11 +286,13 @@ function submitConfigForm() {
 	.done(function(data){		
 	});
 
-	var apicAPIPayload = '{"apic_ip": "' + $("#apic-endpoint").val() + '","aci_annotations_enabled": ' + true + ',"apic_port":"' +  $("#apic-port").val()   + '","apic_user":"' + $("#apic-user").val()  + '","apic_password":"' + $("#apic-password").val() + '"}'
+    if ($("#enable-apic-toggle").prop('checked')) {
+    	var apicAPIPayload = '{"apic_ip": "' + $("#apic-endpoint").val() + '","aci_annotations_enabled": ' + true + ',"apic_port":"' +  $("#apic-port").val()   + '","apic_user":"' + $("#apic-user").val()  + '","apic_password":"' + $("#apic-password").val() + '"}'
 
-	$.post(apicAPI, apicAPIPayload)
-	.done(function(data){		
-	});
+    	$.post(apicAPI, apicAPIPayload)
+    	.done(function(data){		
+    	});
+    }
 
     // Preliminary checks to build the Mailer payload
     var mailServerProto;
@@ -310,11 +311,16 @@ function submitConfigForm() {
         mailServerAuth = "yes";
     }
 
-    var mailerAPIPayload = '{"mail_server_address": "' + $("#mail-server-address").val() + '","mail_server_enabled": ' + true + ',"mail_server_proto":"' + mailServerProto + '","mail_server_auth":"' + mailServerAuth + '","mail_server_user":"' + $("#mail-server-user").val() + '","mail_server_password":"' + $("#mail-server-password").val() + '","mail_server_sender":"' + $("#mail-server-sender").val()  + '","mail_server_recipient":"' + $("#mail-server-recipient").val() + '"}'
+    // If mail toggle is on submit the payload and enable the test mail button
+    if ($("#enable-mail-toggle").prop('checked')) {
+        var mailerAPIPayload = '{"mail_server_address": "' + $("#mail-server-address").val() + '","mail_server_enabled": ' + true + ',"mail_server_proto":"' + mailServerProto + '","mail_server_auth":"' + mailServerAuth + '","mail_server_user":"' + $("#mail-server-user").val() + '","mail_server_password":"' + $("#mail-server-password").val() + '","mail_server_sender":"' + $("#mail-server-sender").val()  + '","mail_server_recipient":"' + $("#mail-server-recipient").val() + '"}'
 
-    $.post(mailerAPI, mailerAPIPayload)
-    .done(function(data){       
-    });
+        $.post(mailerAPI, mailerAPIPayload)
+        .done(function(data){       
+        });
+
+    }
+
 
 }
 
@@ -378,7 +384,11 @@ function updateOptServicesStatus(){
 submitConfirm.on("click", function(){
 	submitConfirm.button("Configuring");
 	submitConfigForm();
-	startAlfred();
+	//startAlfred();
+    $.post(serviceAPI, '{"alter_service": "restart"}')
+    .done(function(data){
+        updateStatus()
+    });
 	updateConnectButtons();
 	submitModal.modal("hide");
 	//$("#operate-tab").removeClass("hide");
@@ -402,6 +412,7 @@ $(function() {
                         });
                     }
                 })
+                $(".apic-configuration").removeClass("hide");
         }
         else {
             $.getJSON(apicAPI, function(result){
@@ -416,6 +427,7 @@ $(function() {
                         });
                     }
                 })
+                $(".apic-configuration").addClass("hide");
         }
       
     })
@@ -437,6 +449,7 @@ $(function() {
                         });
                     }
                 })
+                $(".mail-configuration").removeClass("hide");
         }
         else {
             $.getJSON(mailerAPI, function(result){
@@ -454,6 +467,7 @@ $(function() {
                         });
                     }
                 })
+                $(".mail-configuration").addClass("hide");
         }
       
     })
