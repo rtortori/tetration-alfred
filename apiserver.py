@@ -51,6 +51,13 @@ def check_restapi_reachability(target):
 # Define Flask app name
 alfred_api = Flask(__name__)
 
+# Fix CORS
+@alfred_api.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
 
 # Return a message in case apic_data.json is not found
 @alfred_api.errorhandler(404)
