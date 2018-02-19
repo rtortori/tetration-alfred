@@ -2,6 +2,13 @@
 ###### A loyal butler for your Cisco Tetration Analytics Cluster!
 Disclaimer: This is NOT an official Cisco application and comes with absolute NO WARRANTY!<br>
 
+## What is this?
+
+Alfred is a Kafka consumer application written in Python, Javascript and HTML5 that take actions based on Cisco Tetration Analytics inputs.<br>
+It has been designed to be Tetration swiss army knife.<br> 
+Today, Alfred supports asset annotations based on Cisco ACI endpoint tracker and is capable to forward Tetration alarms via email.<br>
+A Kafka topic monitor is also available.
+
 ## Concept
 
 The idea behind this application is to create a protocol that can be leveraged by Cisco Tetration
@@ -12,17 +19,77 @@ To push any alerts out from Tetration cluster, user needs to use a configured da
 Site admin users are the only ones who can configure and activate new/existing data taps. 
 Users can only view data taps that belong to their Tenant. <br>
 
-Tetration Alfred is a Kakfa consumer application written in Python that consumes messages 
+Tetration Alfred has a Kakfa consumer backend written in Python that consumes messages 
 from specific topics using consumer groups. 
-This means that it can be scaled horizontally to parallelize the processing given 
+It can be scaled horizontally to parallelize the processing given 
 that the target Kafka topic has enough partitions. <br>
 Refer to the following link for further info:
 https://kafka.apache.org/documentation/#kafka_mq
 
-Tetration Alfred can be manually installed on any Linux host or build a Docker container that will do
-everything for you (preferred method)
+## Screenshots
+Alfred Configuration:
 
-## Example outcome
+<img src="https://raw.githubusercontent.com/rtortori/tetration-alfred/master/screenshots/config-ss.png" width=70% />
+
+
+Kafka Monitor:
+
+<img src="https://raw.githubusercontent.com/rtortori/tetration-alfred/master/screenshots/kafka-monitor-ss.png" width=70% />
+
+Alfred Operations:
+
+<img src="https://raw.githubusercontent.com/rtortori/tetration-alfred/master/screenshots/operate-ss.png" width=70% />
+
+## Environment<br>
+This application has been developed and tested under the following environment conditions:<br>
+- Cisco ACI 3.0(1k)
+- Cisco TetrationOS Software, Version 2.2.1.31
+- Apache Kafka 0.10.2.1 and 1.0.0
+- Docker CE 17.12.0-ce (for docker version of tetration-alfred)
+
+## Prerequisites<br>
+- Cisco Tetration Analytics cluster (for ACI Annotations)
+- Cisco ACI Fabric (for ACI Annotations)
+- At least one working Apache Kafka broker (Mandatory)
+- An outbound mail server (for Email Alerts)
+
+## Installation Guide
+Install docker CE. Have a look at the 
+[official installation guide](https://docs.docker.com/install/ "Docker Install")
+
+1. Clone this repo
+2. cd into **tetration-alfred** directory
+3. Edit Dockerfile in case you are behind a proxy
+4. Copy the content of the UI folder under the root of any webserver you have (i.e. NGINX, Apache, etc.)
+5. Build tetration-alfred container and run it:<br> 
+```
+docker build -t tetration-alfred .
+```
+<br>
+```
+docker run -itd -p 5000:5000 tetration-alfred
+```
+<br>
+The command above will expose port 5000 for API Access.<br>
+
+
+## Release notes: 1.0 
+"Questions" are made in JSON format.<br>
+The JSON **MUST** have two keys, "query" and "payload".<br>
+Where "query" is the type of question and "payload" is the question itself. <br>
+
+Supported queries are:<br>
+- `get_endpoint_details` for ACI Annotations<br>
+- `dump_to_email` for Email Alerts
+        
+#### ACI Annotations Use Case
+
+Payload is a list of endpoints that Alfred will use to query the endpoint tracker API exposed by 
+Cisco APIC controller.<br>
+The response will be parsed and packaged as a CSV file that will be pushed back to Tetration through
+User Annotations API.<br>
+
+##### Example outcome for ACI Annotations
 Given the following "question" made by a Tetration User App:
 ```
 {
@@ -42,101 +109,16 @@ Alfred will annotate assets like this:
 | 10.1.1.3 | 14-Dec-2017-18:27:44 | Your_app      | Prod    | vlan-123      | 201     | learned-vmm     | Tetration | Apps  |
 
 
-## Current version: 0.2 
-"Questions" are made in JSON format.<br>
-Current implementation of the JSON question is:<br>
-```
-{
-'query': 'get_endpoint_detail',
-'payload' : ['10.1.1.1',
-             '10.1.1.2',
-             '10.1.1.3']
-}                
-```
-Where "query" is the type of question and "payload" is the question itself. <br><br>
-Current implementation only supports ACI annotations, therefore the only query supported is 
-"get_endpoint_detail".<br>
-Payload is a list of endpoints that Alfred will use to query the endpoint tracker API exposed by 
-Cisco APIC controller.<br>
-The response will be parsed and packaged as a CSV file that will be pushed back to Tetration through
-User Annotations API.<br>
+#### Email Alerts Use Case
 
-## Work in progress :)
-- Forward Tetration alarms to mail recipient
+Payload is a string that will be sent as the body of an email. 
 
-## Road-map (not committed)
-Since the ACI annotation engine is triggered using a specific query in the question, further actions can be implemented 
-by adding new queries.<br><br>
-A nice UI to manage Alfred won't hurt, REST API support just added!
+## User Guide
 
+### Configure Alfred
+*TO DO*
 
-## Requirements<br>
-- Cisco Tetration Analytics cluster
-- Cisco ACI Fabric
-- At least one working Apache Kafka broker
-- Linux operating system with Python 3.6 (manual installation only)
-- Docker CE (for docker version of tetration-alfred)
-
-## Environment<br>
-This application has been developed and tested under the following environment conditions:<br>
-- Cisco ACI 3.0(1k)
-- Cisco TetrationOS Software, Version 2.2.1.31
-- Apache Kafka 0.10.2.1 and 1.0.0
-- Alfred running on CentOS 7.4 (manual installation)
-- Python 3.6 (manual installation)
-- Python modules (see requirements.txt, manual installation)
-    - kafka==1.3.5
-    - requests==2.18.4
-    - tetpyclient==1.0.5
-- Docker CE 17.12.0-ce (for docker version of tetration-alfred)
-
-## Prerequisites installation (docker version)
-- Install docker CE. Have a look at the 
-[official installation guide](https://docs.docker.com/install/ "Docker Install")
-    
-## Prerequisites installation (manual install)
-1. Identify or deploy a Linux server (VM or baremetal)
-2. Install python3.6. Examples can be found [here](http://ask.xmodulo.com/install-python3-centos.html "Python3 for CentOS")
-3. Install pip3.6 using apt or yum
-4. Install python3 requirements with <br>
-```pip3.6 install -r requirements.txt ```
-5. Install git
-6. Move to your favourite directory and clone this repo with <br>
-```git clone https://github.com/rtortori/tetration-alfred.git```
-7. On your Cisco Tetration Analytics cluster, go to "API Keys" and create a new API Key.<br>
-Save the resulting JSON file under the same directory of tetration_alfred.py and name it "tetration_credentials.json".
-You already have 'tetration_credentials.json' in your working directory, just copy/paste api key and secret.
-
-## Alfred usage
-### Configuration steps
-1. Alfred pulls the configuration from a file called *alfred_configuration.json*<br>
-Edit *alfred_configuration.json* and put your configuration details
-2. *brokers_list.txt* contains the list of Kafka brokers, specify your target Kafka brokers here. 
-You can specify more than one Kafka broker though Tetration will only send data to a single data taps
-3. *apic_data.json* contains the configuration of your ACI setup. Fill in with your APIC specific configuration
-4. Within tetration_alfred.py you can toggle debug mode on/off (default is *on*)<br>
-
-```
-debug_mode = True
-```
-
-### Running the application (docker version)
-- Edit the Dockerfile (only if you are behind a proxy)
-- Build tetration-alfred container and run it :
-``` 
-docker build -t tetration-alfred .
-docker run -itd tetration-alfred
-```
-
-- Done.
-
-### Running the application (manual install)
-Start tetration_alfred.py with:<br>
-```
-python3.6 tetration_alfred.py
-```
-
-### Cisco Tetration Analytics user app
+### Cisco Tetration Analytics User App
 The file*h4_pyspark.ACI Annotations.ipynb* has been provided with Alfred.<br> 
 You will need to import it into Data Platform user apps:<br>
 - Under "Data Platform", click on "User Apps" in the left pane
@@ -171,10 +153,11 @@ It will then drop the JSON question to the target Datatap "Kafka-DT"<br><br>
 data_tap = 'Kafka-DT'
 ip_subnet_prefix = '10.1'
 ```
+
+
+## API Guide
+*TO DO*
+
 <br>
 For further information around Tetration User Apps please refer to the "User Guide" present 
 in your Cisco Tetration Analytics cluster.
-
-#### REST API documentation
-Tetration Alfred supports REST APIs.<br>
-TODO: add documentation and examples
