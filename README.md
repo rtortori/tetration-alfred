@@ -62,10 +62,11 @@ Install docker CE. Have a look at the
 3. Edit Dockerfile in case you are behind a proxy
 4. Copy the content of the UI folder under the root of any webserver you have (i.e. NGINX, Apache, etc.)
 5. Build tetration-alfred container and run it:<br> 
+
 ```
 docker build -t tetration-alfred .
 ```
-<br>
+
 ```
 docker run -itd -p 5000:5000 tetration-alfred
 ```
