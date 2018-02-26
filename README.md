@@ -86,7 +86,7 @@ docker volume create alfred-vol
 - Tell Alfred container to use alfred-vol volume and to restart automatically if killed or host restarts:<br>
 
 ```
-docker run -itd --mount source=alfred-vol,target=/tetration-alfred -p 5000:5000 --restart always alfred
+docker run -itd --mount source=alfred-vol,target=/tetration-alfred -p 5000:5000 --restart always tetration-alfred
 ```
 <br>
 
