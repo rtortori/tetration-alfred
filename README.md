@@ -116,45 +116,7 @@ Payload is a string that will be sent as the body of an email.
 
 ## User Guide
 
-### Configure Alfred
-*TO DO*
-
-### Cisco Tetration Analytics User App
-The file*h4_pyspark.ACI Annotations.ipynb* has been provided with Alfred.<br> 
-You will need to import it into Data Platform user apps:<br>
-- Under "Data Platform", click on "User Apps" in the left pane
-- Click on "Import App"
-- Select*h4_pyspark.ACI Annotations.ipynb* and give it a name
-- Run the application or schedule it clicking on "Jobs" in the left pane<br><br>
-**Note: The Application will take into account data for the scope you are currently using**<br>
-**Ensure that in alfred_configuration.json you have configured the same scope**
-
-#### User App configuration
-After you've opened the User App in Tetration, you can configure it in the 1st Jupyter Notebook Cell.
-<br>
-Current implementation supports the following parameters:<br>
-- data_tap
-    - The target data tap name. It **MUST** match the name that has been configured under
-    "Datataps" on Tetration
-- topic
-    - The topic name
-- ip_subnet_prefix
-    - Prefix of the IPs that Tetration will look for in the inventory
-
-**Note: From Tetration 2.2.1.31, the Datatap will embed the topic configuration. The code 
-above will NOT work, you will need to omit the topic to have a working user app, this is documented
-in the Tetration User App** <br>
-    
-<br>
-The following configuration example will make Tetration look for endpoints in the inventory for the last 
-hour which IP starts with 10.1. <br>
-It will then drop the JSON question to the target Datatap "Kafka-DT"<br><br>
-
-```
-data_tap = 'Kafka-DT'
-ip_subnet_prefix = '10.1'
-```
-
+Alfred User Guide is available [here](https://github.com/rtortori/tetration-alfred/blob/master/User_Guide.md)
 
 ## API Guide
 Alfred API Guide is available [here](https://github.com/rtortori/tetration-alfred/blob/master/API_Guide.md)
