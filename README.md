@@ -72,6 +72,7 @@ docker run -itd -p 5000:5000 tetration-alfred
 ```
 <br>
 The command above will expose port 5000 for API Access.<br>
+Access Alfred by pointing with your browser to your web server root.<br>
 
 
 ## Release notes: 1.0 
