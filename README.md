@@ -72,8 +72,20 @@ docker run -itd -p 5000:5000 tetration-alfred
 ```
 <br>
 The command above will expose port 5000 for API Access.<br>
-Access Alfred by pointing with your browser to your web server root.<br>
-
+Access Alfred by pointing with your browser to your web server root.<br><br>
+<b>Note:
+If the host restarts or the container is killed, the configuration will be lost. If this is a problem for your environment, you can start Alfred using docker persistent storage: 
+</b><br><br>
+1. Create a docker volume<br>
+```
+docker volume create alfred-vol
+```
+<br>
+2. Tell Alfred container to use alfred-vol volume and to restart automatically if killed or host restarts:<br>
+```
+docker run -itd --mount source=alfred-vol,target=/tetration-alfred -p 5000:5000 --restart always alfred
+```
+<br>
 
 ## Release notes: 1.0 
 "Questions" are made in JSON format.<br>
