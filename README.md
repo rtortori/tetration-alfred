@@ -157,7 +157,7 @@ ip_subnet_prefix = '10.1'
 
 
 ## API Guide
-*TO DO*
+Alfred API Guide is available [here](https://github.com/rtortori/tetration-alfred/blob/master/API_Guide.md)
 
 <br>
 For further information around Tetration User Apps please refer to the "User Guide" present 
