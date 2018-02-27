@@ -1,0 +1,10 @@
+[Unit]
+Description=Alfred Network Pre-config
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/root/scripts/alfred-netsetup.sh
+
+[Install]
+WantedBy=multi-user.target
