@@ -1,0 +1,13 @@
+[Unit]
+Description=Apache Zookeeper
+After=alfred-netsetup.service
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=0s
+ExecStart=/opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+ExecStop=/opt/kafka/bin/zookeeper-server-stop.sh
+
+[Install]
+WantedBy=multi-user.target
