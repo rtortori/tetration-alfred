@@ -25,18 +25,22 @@
 
 ####Manage Services:<br>
 #####Start Alfred<br>
+
 ```
 systemctl start alfred 
 ```
+
 #####Stop Alfred<br>
+
 ```
 systemctl stop alfred 
 ```
+
 #####Check Alfred status and logs<br>
+
 ```
 systemctl status alfred 
 ```
-<br>
 
 ##### Start Kafka
 
