@@ -1,0 +1,12 @@
+[Unit]
+Description=Alfred
+After=alfred-netsetup.service
+
+[Service]
+Restart=always
+RestartSec=0s
+ExecStart=/root/scripts/alfred-start.sh
+ExecStop=/root/scripts/alfred-stop.sh
+
+[Install]
+WantedBy=multi-user.target
