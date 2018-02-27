@@ -6,6 +6,9 @@ Select the features you want to enable and fill the configuration form.<br>
 <b>Tetration credentials and Kafka Broker configuration are mandatory.</b><br>
 Once you have completed the configuration, click on the "Submit" button and confirm. Alfred will start automatically.<br>
 <br>
+If you use Alfred All-in-one (OVA), specify Alfred IP in the Kafka Broker Section.
+<br>
+<br>
 In the "Operate" panel, you can:<br>
 - Start, Stop or Restart Alfred Service<br>
 - Check feature status<br>
