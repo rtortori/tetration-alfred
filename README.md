@@ -1,6 +1,7 @@
 # Cisco Tetration Alfred
 ###### A loyal butler for your Cisco Tetration Analytics Cluster!
 Disclaimer: This is NOT an official Cisco application and comes with absolute NO WARRANTY!<br>
+Please check LICENSE-CISCO.md for further information <br>
 
 ## What is this?
 
