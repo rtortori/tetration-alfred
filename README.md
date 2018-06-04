@@ -1,5 +1,4 @@
-# Warning: This repo has been moved to: <br>
-# https://gitlab.com/rtortori/tetration-alfred
+# Moved to: https://gitlab.com/rtortori/tetration-alfred
 
 
 # Cisco Tetration Alfred
